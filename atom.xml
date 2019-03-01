@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-01T02:31:23.522Z</updated>
+  <updated>2019-02-28T15:17:31.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,23 +17,155 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2019/03/01/hello-world/"/>
-    <id>http://yoursite.com/2019/03/01/hello-world/</id>
-    <published>2019-03-01T02:31:23.522Z</published>
-    <updated>2019-03-01T02:31:23.522Z</updated>
+    <title>Java内存管理</title>
+    <link href="http://yoursite.com/2019/02/28/Java%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
+    <id>http://yoursite.com/2019/02/28/Java内存管理/</id>
+    <published>2019-02-28T14:19:09.000Z</published>
+    <updated>2019-02-28T15:17:31.000Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h3><p>在Java中，程序员时不需要显式的区释放以恶对象内存的，而是由虚拟机自行执行。在JVM中，有一个垃圾回收线程，它是低优先级的，在正常情况下是不会被执行的，只有在虚拟机空闲或者当前堆内存不足的时候，才会触发执行，扫描那些没有被任何引用的对象，并且将他们添加到回收的集合中去，进行回收。<br><a id="more"></a></p><h3 id="JVM内存划分"><a href="#JVM内存划分" class="headerlink" title="JVM内存划分"></a>JVM内存划分</h3><ul><li>方法区（线程共享）: 常量，静态变量，即时编译器（JIT）编译后的代码也都再方法区</li><li>堆内存（线程共享）:垃圾回收的主要场所</li><li>程序计数器: 当前线程执行的字节码的位置指示器</li><li>虚拟机栈（栈内存）:保存局部变量，基本数据类型变量以及对内存中谋份对象的引用变量</li><li>本地方法栈: 为JVM提供native方法的服务</li></ul><h3 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h3><ul><li>引用计数： 原理是此对象有一个引用，即增加一个技术，删除一个引用则减少一个计数，垃圾回收时，只用收集计数为0的对象，此算法最致命的是无法处理循环引用的问题。</li><li>标记-清除: 此算法执行分为两个阶段。第一个阶段从引用根节点开始标记所有被引用的对象，第二阶段遍历整个堆，把未标记的对象清楚。</li><li>复制算法: 此算法把内存空间分为两个相等的区域，每次只使用其中一个区域。垃圾回收时，遍历当前使用区域，把正在使用中的对象复制到另外一个区域中。<br>此算法只处理正在使用中的对象，因此复制成本比较小，同时，复制过去以后还能进行相应的内存整理，不会出现‘碎片’问题，当然此算法的缺点也是很明显的，就是需要两倍空间。</li><li>标记-整理: 此算法结合了‘标记-清除’和‘复制’两个算法的优点，也是发呢为两个阶段，第一阶段从根节点开始标记多有被引用的对象，第二阶段遍历整个堆，清除未标记对象并且把存活对象‘压缩’到堆的其中一块，按顺序排放。<br>此算法避免了‘标记-清楚’的碎片问题，同时也避免了‘复制’算法的空间问题。</li></ul><h3 id="如何判断一个对象是否存活"><a href="#如何判断一个对象是否存活" class="headerlink" title="如何判断一个对象是否存活?"></a>如何判断一个对象是否存活?</h3><p>判断一个对象是否存活有两种方法：</p><ul><li>引用计数法<br>所谓引用计数法就是给每个对象设置一个引用计数器设置一个引用计数器，每当有一个地方引用这个对象时，就将计数器加一，引用失效时，计数器就减一。当一个对象的引用计数器为零时，说明此对象没有被引用，也就是‘死对象’，将会被垃圾回收。</li><li>可达性算法（引用链法）<br>该算法的思想是：从一个被称为GC Roots的对象开始向下搜索，如果一个对象到GC Roots没有任何引用链相连时，则说明此对象不可用。<br>在java中可以作为GC Roots的对象有以下几种:</li><li>虚拟机栈中引用的对象</li><li>方法区类静态属性引用的对象</li><li>方法区常量池引用的对象</li><li>本地方法栈JNI引用的对象</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;垃圾回收机制&quot;&gt;&lt;a href=&quot;#垃圾回收机制&quot; class=&quot;headerlink&quot; title=&quot;垃圾回收机制&quot;&gt;&lt;/a&gt;垃圾回收机制&lt;/h3&gt;&lt;p&gt;在Java中，程序员时不需要显式的区释放以恶对象内存的，而是由虚拟机自行执行。在JVM中，有一个垃圾回收线程，它是低优先级的，在正常情况下是不会被执行的，只有在虚拟机空闲或者当前堆内存不足的时候，才会触发执行，扫描那些没有被任何引用的对象，并且将他们添加到回收的集合中去，进行回收。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis</title>
+    <link href="http://yoursite.com/2019/02/28/Redis/"/>
+    <id>http://yoursite.com/2019/02/28/Redis/</id>
+    <published>2019-02-28T13:56:37.000Z</published>
+    <updated>2019-02-28T14:16:12.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>Redis是一个开源的使用C语言编写，可基于内存也可持久化的日志型，key-value数据库。<br><a id="more"></a></p><h3 id="支持的数据类型"><a href="#支持的数据类型" class="headerlink" title="支持的数据类型"></a>支持的数据类型</h3><h4 id="String字符串"><a href="#String字符串" class="headerlink" title="String字符串"></a><strong>String字符串</strong></h4><p>格式:<br><code>set key value</code></p><ul><li>String类型是二进制安全的，意思是redis的String可以包含任何数据，比如jpg图片或者序列号的对象。</li><li>String类型是Redis最基本的数据类型，一个键最大存储512MB</li></ul><h4 id="Hash-哈希"><a href="#Hash-哈希" class="headerlink" title="Hash(哈希)"></a>Hash(哈希)</h4><p>格式:<br><code>hmset name key1 vaalue1 key2 value2</code></p><ul><li>Redis的Hash是一个键值对集合</li><li>Hash是一个Strign类型的field和value的映射表，<strong>Hash特别适合于存储对象</strong></li></ul><h4 id="List（列表）"><a href="#List（列表）" class="headerlink" title="List（列表）"></a>List（列表）</h4><p>格式:<br><code>lpush name value</code></p><ul><li>在key对应list的头部添加字符串元素<br>格式 :<br><code>rpush name value</code></li><li>在key对应list的尾部添加字符串元素<br>格式 :<br><code>lrem name index</code></li><li>在key对应的list中删除count个和value相同的元素<br>格式 :<br><code>llen name</code></li><li>返回ke’y所对应list的长度</li></ul><h4 id="Set（集合）"><a href="#Set（集合）" class="headerlink" title="Set（集合）"></a>Set（集合）</h4><p>格式 :<br><code>sadd name value</code></p><ul><li>Redis的Set是String类型的无序集合。</li><li>集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)</li></ul><h4 id="ZSet（有序集合）"><a href="#ZSet（有序集合）" class="headerlink" title="ZSet（有序集合）"></a>ZSet（有序集合）</h4><p>格式：<br><code>zadd name score value</code></p><ul><li>Redis zset和set一样都是String类型元素的集合，且不允许重复的成员</li><li>不同的是每个元素都会关联一个double类型的分数，Redis正式通过这些分数为集合中的成员进行从小到大排序的。</li><li>ZSet的成员是唯一的，但是分数却是可以重复的。</li></ul><h3 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h3><p><strong>什么是Redis持久化?</strong><br>持久化就是把内存中的数据写道磁盘中去，防止服务宕机了内存数据丢失。<br>Redis提供了两种持久化的方法： RDB（默认）和AOF</p><h4 id="RDB（redis-DataBase）"><a href="#RDB（redis-DataBase）" class="headerlink" title="RDB（redis DataBase）"></a>RDB（redis DataBase）</h4><p>RDB持久化是将内存中的数据库记录定时dump到磁盘上。</p><h4 id="AOF（append-only-file）"><a href="#AOF（append-only-file）" class="headerlink" title="AOF（append-only file）"></a>AOF（append-only file）</h4><p>AOF持久化是将Redis的操作日志以追加的方式写入文件</p><h4 id="两者区别"><a href="#两者区别" class="headerlink" title="两者区别"></a>两者区别</h4><ul><li>RDB持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。</li><li>AOF持久化是以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，可以打开文件看到详细的操作记录。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Redis&quot;&gt;&lt;a href=&quot;#Redis&quot; class=&quot;headerlink&quot; title=&quot;Redis&quot;&gt;&lt;/a&gt;Redis&lt;/h2&gt;&lt;h3 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h3&gt;&lt;p&gt;Redis是一个开源的使用C语言编写，可基于内存也可持久化的日志型，key-value数据库。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>搜索引擎高级搜索语法</title>
+    <link href="http://yoursite.com/2019/02/27/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E9%AB%98%E7%BA%A7%E6%90%9C%E7%B4%A2%E8%AF%AD%E6%B3%95/"/>
+    <id>http://yoursite.com/2019/02/27/搜索引擎高级搜索语法/</id>
+    <published>2019-02-27T15:42:47.000Z</published>
+    <updated>2019-02-27T15:43:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><code>site:</code>指定域名是github.io的结果<br><code>site:github.io 数据库</code><br>则能搜到所有github博客中有关数据库关键字的结果</li><li><code>intitle:</code>搜索范围限定在网页标题<a id="more"></a></li><li><code>inurl:</code>搜索范围限定在URL中</li><li><code>&quot;&quot;双引号</code>搜索词上加上双引号，表示搜索词不能在查询中被拆分，在查询结果中必须完整出现</li><li><code>-减号</code>不含特定查询词</li><li><code>+加号</code>包含特定查询词</li><li><code>filetype:</code>搜索范围限定在指定文档格式中</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;ul&gt;
+&lt;li&gt;&lt;code&gt;site:&lt;/code&gt;指定域名是github.io的结果&lt;br&gt;&lt;code&gt;site:github.io 数据库&lt;/code&gt;&lt;br&gt;则能搜到所有github博客中有关数据库关键字的结果&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;intitle:&lt;/code&gt;搜索范围限定在网页标题
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>排序算法</title>
+    <link href="http://yoursite.com/2019/02/21/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"/>
+    <id>http://yoursite.com/2019/02/21/排序算法/</id>
+    <published>2019-02-21T07:10:02.000Z</published>
+    <updated>2019-02-28T14:01:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="算法分类"><a href="#算法分类" class="headerlink" title="算法分类"></a>算法分类</h2><p>十种常见排序算法分类如下:<br><a id="more"></a><br><img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/02/21/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95.png" alt="排序算法"></p><h2 id="算法复杂度"><a href="#算法复杂度" class="headerlink" title="算法复杂度"></a>算法复杂度</h2><p><img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/02/21/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E5%A4%8D%E6%9D%82%E5%BA%A6.png" alt="算法复杂度"></p><h2 id="具体算法"><a href="#具体算法" class="headerlink" title="具体算法"></a>具体算法</h2><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p><img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/02/21/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F.gif" alt="冒泡排序"></p><p><strong>Java实现</strong> :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class bubbo_sort &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        int arr[] = &#123;8,2,6,12,1,9,5,5,10&#125;;</span><br><span class="line">        int length = arr.length;</span><br><span class="line">        bubbo_sort(arr,length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void bubbo_sort(int arr[],int length)&#123;</span><br><span class="line">        for(int i = 0; i&lt;length; i++)&#123;</span><br><span class="line">            int flag = -1;</span><br><span class="line">            for(int j=0; j&lt;length-i-1; j++)&#123;</span><br><span class="line">                if(arr[j]&gt;arr[j+1])&#123;</span><br><span class="line">                    int temp=arr[j];</span><br><span class="line">                    arr[j]=arr[j+1];</span><br><span class="line">                    arr[j+1]=temp;</span><br><span class="line">                    flag = 1;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if(flag == -1)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            print(arr);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //打印数组序列</span><br><span class="line">    public static void print(int arr[])&#123;</span><br><span class="line">        int length = arr.length;</span><br><span class="line">        for(int i=0; i&lt;length; i++)&#123;</span><br><span class="line">            System.out.print(arr[i]+&quot;\t&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><p><img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/02/21/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F.gif" alt="插入排序"></p><p><strong>Java实现</strong> :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class insert_sort &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        int arr[] = &#123;8,2,6,12,1,9,5,5,10&#125;;</span><br><span class="line">        insert_sort(arr,arr.length);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    // 简单插入排序</span><br><span class="line">    public static void insert_sort(int arr[], int length)&#123;</span><br><span class="line">        for(int i=1; i&lt;length; i++)&#123;</span><br><span class="line">            int j=i;</span><br><span class="line">            while(j&gt;0 &amp;&amp; arr[j]&lt;arr[j-1])&#123;</span><br><span class="line">                int temp=arr[j];</span><br><span class="line">                arr[j]=arr[j-1];</span><br><span class="line">                arr[j-1]=temp;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            print(arr);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //打印数组序列</span><br><span class="line">    public static void print(int arr[])&#123;</span><br><span class="line">        int length = arr.length;</span><br><span class="line">        for(int i=0; i&lt;length; i++)&#123;</span><br><span class="line">            System.out.print(arr[i]+&quot;\t&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><p><img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/02/21/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F.gif" alt="选择排序"></p><p><strong>Java实现</strong> :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class select_sort &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        int arr[] = &#123;8,2,6,12,1,9,5,5,10&#125;;</span><br><span class="line">        select_sort(arr,arr.length);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    //选择排序</span><br><span class="line">    public static void select_sort(int arr[], int length)&#123;</span><br><span class="line">        for(int i=0; i&lt;length-1; i++)&#123;</span><br><span class="line">            int temp=arr[i];</span><br><span class="line">            for(int j=i+1; j&lt;length; j++)&#123;</span><br><span class="line">                if(arr[j]&lt;temp)&#123;</span><br><span class="line">                    temp=arr[j];</span><br><span class="line">                    arr[j]=arr[i];</span><br><span class="line">                    arr[i]=temp;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            print(arr);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    //打印数组序列</span><br><span class="line">    public static void print(int arr[])&#123;</span><br><span class="line">        int length = arr.length;</span><br><span class="line">        for(int i=0; i&lt;length; i++)&#123;</span><br><span class="line">            System.out.print(arr[i]+&quot;\t&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p>感觉这个人讲的还可以理解<br><a href="https://blog.csdn.net/adusts/article/details/80882649#commentBox" target="_blank" rel="noopener">https://blog.csdn.net/adusts/article/details/80882649#commentBox</a></p><p><strong>Java实现</strong> :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">//快速排序</span><br><span class="line">public class quick_sort &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        int arr[] = &#123;8,2,6,12,1,9,5,5,10&#125;;</span><br><span class="line">        quick_sort(arr,0,8);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void quick_sort(int arr[], int low, int high)&#123;</span><br><span class="line">        int l=low;</span><br><span class="line">        int h=high;</span><br><span class="line">        int povit=arr[low];//标点</span><br><span class="line">        //一趟排序</span><br><span class="line">        while(l&lt;h) &#123;</span><br><span class="line">            while (l &lt; h &amp;&amp; arr[h] &gt;= povit) &#123;//如果右边一直大于标点，则右边减一</span><br><span class="line">                h--;</span><br><span class="line">            &#125;</span><br><span class="line">            //否则交换位置</span><br><span class="line">            if (l &lt; h) &#123;</span><br><span class="line">                int temp = arr[h];</span><br><span class="line">                arr[h] = arr[l];</span><br><span class="line">                arr[l] = temp;</span><br><span class="line">                l++;</span><br><span class="line">            &#125;</span><br><span class="line">            while(l&lt;h &amp;&amp; arr[l]&lt;=povit)&#123;//如果左边一直小于标点，则左边加一</span><br><span class="line">                l++;</span><br><span class="line">            &#125;</span><br><span class="line">            //否则交换位置</span><br><span class="line">            if(l&lt;h)&#123;</span><br><span class="line">                int temp = arr[h];</span><br><span class="line">                arr[h] = arr[l];</span><br><span class="line">                arr[l] = temp;</span><br><span class="line">                h--;</span><br><span class="line">            &#125;</span><br><span class="line">            print(arr);</span><br><span class="line">        &#125;</span><br><span class="line">        //一趟排序下来，确定了标点(l位置)，标点左边的都比标点小，标点右边的都比标点大</span><br><span class="line">        //继续递归左边乱序的数列</span><br><span class="line">        if(l&gt;low)&#123;</span><br><span class="line">            quick_sort(arr,low,l-1);</span><br><span class="line">        &#125;</span><br><span class="line">        //继续递归右边乱序的数列</span><br><span class="line">        if(h&lt;high)&#123;</span><br><span class="line">            quick_sort(arr,l+1,high);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //打印数组序列</span><br><span class="line">    public static void print(int arr[])&#123;</span><br><span class="line">        int length = arr.length;</span><br><span class="line">        for(int i=0; i&lt;length; i++)&#123;</span><br><span class="line">            System.out.print(arr[i]+&quot;\t&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><p><strong>Java实现</strong> :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public class shell_sort &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        int arr[] = &#123;8,2,6,12,1,9,5,5,10&#125;;</span><br><span class="line">        int steps[] = &#123;3,2,1&#125;;</span><br><span class="line">        shell_sort(arr,arr.length, steps);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void shell_sort(int arr[], int length, int steps[])&#123;</span><br><span class="line">        for(int s=0; s&lt;steps.length; s++)&#123;//循环步长</span><br><span class="line">            //分组</span><br><span class="line">            //分组之间只用直接插入排序</span><br><span class="line">            for(int i=0; i&lt;length-steps[s]; i++)&#123;</span><br><span class="line">                int j=i+steps[s];</span><br><span class="line">                while(j&gt;steps[s]-1 &amp;&amp; arr[j]&lt;arr[j-steps[s]])&#123;</span><br><span class="line">                    int temp=arr[j];</span><br><span class="line">                    arr[j]=arr[j-steps[s]];</span><br><span class="line">                    arr[j-steps[s]]=temp;</span><br><span class="line">                    j=j-steps[s];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            print(arr);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //打印数组序列</span><br><span class="line">    public static void print(int arr[])&#123;</span><br><span class="line">        int length = arr.length;</span><br><span class="line">        for(int i=0; i&lt;length; i++)&#123;</span><br><span class="line">            System.out.print(arr[i]+&quot;\t&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;算法分类&quot;&gt;&lt;a href=&quot;#算法分类&quot; class=&quot;headerlink&quot; title=&quot;算法分类&quot;&gt;&lt;/a&gt;算法分类&lt;/h2&gt;&lt;p&gt;十种常见排序算法分类如下:&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>过滤器和拦截器</title>
+    <link href="http://yoursite.com/2019/02/01/%E8%BF%87%E6%BB%A4%E5%99%A8%E5%92%8C%E6%8B%A6%E6%88%AA%E5%99%A8/"/>
+    <id>http://yoursite.com/2019/02/01/过滤器和拦截器/</id>
+    <published>2019-02-01T06:58:22.000Z</published>
+    <updated>2019-02-01T07:21:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="拦截器-Interceptor-与过滤器-Filter"><a href="#拦截器-Interceptor-与过滤器-Filter" class="headerlink" title="拦截器(Interceptor)与过滤器(Filter)"></a>拦截器(Interceptor)与过滤器(Filter)</h2><h3 id="拦截器使用"><a href="#拦截器使用" class="headerlink" title="拦截器使用"></a>拦截器使用</h3><ul><li>请求达到DispactcherServlet</li><li>DispatcherServlet发送至Interceptor,执行preHandle()</li><li>请求达到 Controller</li><li>请求结束后，postHandle 执行<a id="more"></a><h3 id="过滤器-Filter-工作原理"><a href="#过滤器-Filter-工作原理" class="headerlink" title="过滤器(Filter)工作原理"></a>过滤器(Filter)工作原理</h3>只要你在web.xml文件配置好要拦截的客户端请求，它都会帮你拦截到请求，此时你就可以对请求或响应(Request、Response)统一设置编码，简化操作；同时还可进行逻辑判断，如用户是否已经登陆、有没有权限访问该页面等等工作。它是随你的web应用启动而启动的，只初始化一次，以后就可以拦截相关请求，只有当你的web应用停止或重新部署的时候才销毁<h3 id="拦截器和过滤器的执行顺序"><a href="#拦截器和过滤器的执行顺序" class="headerlink" title="拦截器和过滤器的执行顺序"></a>拦截器和过滤器的执行顺序</h3>过滤器-&gt;拦截器-&gt;Action-&gt;拦截器-&gt;过滤器<h3 id="过滤器和拦截器的主要区别"><a href="#过滤器和拦截器的主要区别" class="headerlink" title="过滤器和拦截器的主要区别"></a>过滤器和拦截器的主要区别</h3></li><li>Filter是依赖于Servlet容器，属于Servlet规范的一部分，而拦截器是独立存在的。</li><li>Filter的执行是由Servlet容器回调完成，不能使用Spring容器资源，而拦截器是通过动态代理的方式完成</li><li>Filter的生命周期是由Servlet容器管理，而拦截器则可以通过IoC容器来管理。</li><li>Filter是定义在web.xml中的<h3 id="拦截器和过滤器的一些用途"><a href="#拦截器和过滤器的一些用途" class="headerlink" title="拦截器和过滤器的一些用途"></a>拦截器和过滤器的一些用途</h3><h4 id="Request-Filter"><a href="#Request-Filter" class="headerlink" title="Request Filter:"></a>Request Filter:</h4></li><li>进行安全检查</li><li>格式化请求头和主体</li><li>审查或者记录日志</li><li>根据请求内容授权后者限制用户访问</li><li>根据请求频率限制用户访问<h4 id="Response-Filter"><a href="#Response-Filter" class="headerlink" title="Response Filter:"></a>Response Filter:</h4></li><li>压缩响应内容，比如让下载的内容更小</li><li>追加或者修改响应<br>-创建或者整体修改响应<br>根据不同修改响应内容</li></ul><ul><li></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;拦截器-Interceptor-与过滤器-Filter&quot;&gt;&lt;a href=&quot;#拦截器-Interceptor-与过滤器-Filter&quot; class=&quot;headerlink&quot; title=&quot;拦截器(Interceptor)与过滤器(Filter)&quot;&gt;&lt;/a&gt;拦截器(Interceptor)与过滤器(Filter)&lt;/h2&gt;&lt;h3 id=&quot;拦截器使用&quot;&gt;&lt;a href=&quot;#拦截器使用&quot; class=&quot;headerlink&quot; title=&quot;拦截器使用&quot;&gt;&lt;/a&gt;拦截器使用&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;请求达到DispactcherServlet&lt;/li&gt;
+&lt;li&gt;DispatcherServlet发送至Interceptor,执行preHandle()&lt;/li&gt;
+&lt;li&gt;请求达到 Controller&lt;/li&gt;
+&lt;li&gt;请求结束后，postHandle 执行
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java高并发</title>
+    <link href="http://yoursite.com/2019/01/30/Java%E9%AB%98%E5%B9%B6%E5%8F%91/"/>
+    <id>http://yoursite.com/2019/01/30/Java高并发/</id>
+    <published>2019-01-30T02:57:39.000Z</published>
+    <updated>2019-02-17T13:34:23.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>“搞Java的怎么能不学并发呢？”</p><ol><li>Java中如何创建一个线程？</li></ol><ul><li>继承Thread,覆写run()方法</li><li>实现Runnable接口，实现run()方法<a id="more"></a></li></ul><ol start="2"><li>Vector如何实现线程安全？</li></ol><ul><li>通过synchronized关键字修饰每个方法</li></ul><ol start="3"><li>类锁和对象锁的区别:</li></ol><ul><li>类锁:所有对象一把锁</li><li>对象锁:一个对象一把锁，多个对象多把锁</li></ul><ol start="4"><li>synchronized修饰静态方法时，相当于类锁，修饰动态代码时，相当于对象锁</li><li>wait() 和 sleep()的区别:</li></ol><ul><li>sleep()来自Thread类，wait()来自Object类</li><li>调用sleep()方法的过程中，线程不会释放对象锁；调用wait()方法线程会释放对象锁。</li><li>sleep睡眠后不出让系统资源，wait让出系统资源其他线程可以调用CPU</li><li>sleep(milliseconds)需要制定一个睡眠时间，时间一到就会自动唤醒</li></ul><ol start="6"><li>为什么wait(), notify(),notifyAll()这些方法不在thread类里面？</li></ol><ul><li>主要是Java提供的锁是对象级别而不是线程的，每个对象都有锁，通过线程获得，由于wait(), notify(), notifyAll()都是锁级别的操作，所以把他们定义在Object类中是因为锁属于对象7. 什么是多线程的同步?<br>当多个线程共享同一个资源,不会受到其他线程的干扰</li></ul><p>—未完待续</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;“搞Java的怎么能不学并发呢？”&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Java中如何创建一个线程？&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;继承Thread,覆写run()方法&lt;/li&gt;
+&lt;li&gt;实现Runnable接口，实现run()方法
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HTTP长链接与短链接</title>
+    <link href="http://yoursite.com/2019/01/29/HTTP%E9%95%BF%E9%93%BE%E6%8E%A5%E4%B8%8E%E7%9F%AD%E9%93%BE%E6%8E%A5/"/>
+    <id>http://yoursite.com/2019/01/29/HTTP长链接与短链接/</id>
+    <published>2019-01-29T09:11:07.000Z</published>
+    <updated>2019-02-01T07:02:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="HTTP协议与TCP-IP协议的关系"><a href="#HTTP协议与TCP-IP协议的关系" class="headerlink" title="HTTP协议与TCP/IP协议的关系"></a>HTTP协议与TCP/IP协议的关系</h3><p>HTTP的长连接和短连接本质上是TCP长连接和短连接。HTTP属于应用层协议，在传输层使用TCP协议，在网络层使用IP协议。 IP协议主要解决网络路由和寻址问题，TCP协议主要解决如何在IP层之上可靠地传递数据包，使得网络上接收端收到发送端所发出的所有包，并且顺序与发送顺序一致。TCP协议是可靠的、面向连接的。</p><h3 id="什么是长连接和短连接"><a href="#什么是长连接和短连接" class="headerlink" title="什么是长连接和短连接"></a>什么是长连接和短连接</h3><p>在HTTP/1.0中默认使用短连接。也就是说，客户端和服务器每进行一次HTTP操作，就建立一次连接，任务结束就中断连接。当客户端浏览器访问的某个HTML或其他类型的Web页中包含有其他的Web资源（如JavaScript文件、图像文件、CSS文件等），每遇到这样一个Web资源，浏览器就会重新建立一个HTTP会话。<br>而从HTTP/1.1起，默认使用长连接，用以保持连接特性。使用长连接的HTTP协议，会在响应头加入这行代码:<br><code>Connection:keep-alive</code><br>在使用长连接的情况下，当一个网页打开完成后，客户端和服务器之间用于传输HTTP数据的TCP连接不会关闭，客户端再次访问这个服务器时，会继续使用这一条已经建立的连接。Keep-Alive不会永久保持连接，它有一个保持时间，可以在不同的服务器软件（如Apache）中设定这个时间。实现长连接需要客户端和服务端都支持长连接。</p><p>HTTP协议的长连接和短连接，实质上是TCP协议的长连接和短连接。</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+        &lt;h3 id=&quot;HTTP协议与TCP-IP协议的关系&quot;&gt;&lt;a href=&quot;#HTTP协议与TCP-IP协议的关系&quot; class=&quot;headerlink&quot; title=&quot;HTTP协议与TCP/IP协议的关系&quot;&gt;&lt;/a&gt;HTTP协议与TCP/IP协议的关系&lt;/h3&gt;&lt;p&gt;HTTP的长
       
     
     </summary>
     
+    
+      <category term="网络" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
@@ -55,6 +187,158 @@
     
     
       <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>编译原理0</title>
+    <link href="http://yoursite.com/2019/01/23/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%860/"/>
+    <id>http://yoursite.com/2019/01/23/编译原理0/</id>
+    <published>2019-01-23T05:55:47.000Z</published>
+    <updated>2019-01-24T08:47:42.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="一个简单C语言的运行时结构"><a href="#一个简单C语言的运行时结构" class="headerlink" title="一个简单C语言的运行时结构"></a>一个简单C语言的运行时结构</h2><h3 id="内存划分"><a href="#内存划分" class="headerlink" title="内存划分"></a>内存划分</h3><p>C程序运行的核心是函数的执行和调用，它构成了整个C语言运行结构的基础框架。这一运行过程只要是在程序指令的驱动以及数据压栈、清栈的支持下实现的。</p><a id="more"></a><p>下面是一段简单的C语言程序：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">int fun(int a, int b);</span><br><span class="line">int m = 10;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    int i = 4;</span><br><span class="line">    int j = 5;</span><br><span class="line">    m = fun(i, j);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int fun(int a, int b)&#123;</span><br><span class="line">    int c =  0;</span><br><span class="line">    c = a + b;</span><br><span class="line">    return c; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>代码执行的内存供有三个区域，分别是代码区、静态数据区、动态数据区。如下图所示:<br> <img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/01/23/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%860/IMG_0687.JPG" alt="内存区域展示"></p><h3 id="程序执行"><a href="#程序执行" class="headerlink" title="程序执行"></a>程序执行</h3><p><strong>程序执行的本质就是代码区的指令不断执行，驱使动态数据区和静态数据区产生数据变化。</strong><br>全局变量m的值装在静态数据区.<br>程序执行前，动态数据区中没有数据，在程序执行后，在指令的驱动下，这一区域才会产生数据，压栈和清栈的工作就是在这一区域完成。</p><p> <img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/01/23/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%860/IMG_0688.JPG" alt="压栈和清栈"></p><p>CPU中有三个寄存器，分别是eip, ebp和esp。<br>    eip指向代码区将要执行的下一条指令，他的管控方式有两种，一种是“顺序执行”，即程序执行完一条指令后自动指向下一条执行；另一种跳转，也就是执行完一条指令后跳转到指定位置。<br>    ebp和esp是用来管控栈空间的，ebp指向栈低，esp指向栈顶，在代码区中，函数调用，返回和执行伴随着不断的压栈和清栈。栈中数据存储和释放的原则是后进先出。</p><p> <img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/01/23/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%860/IMG_0689.JPG" alt="对代码区和动态数据区的管控"></p><h3 id="编译过程概述"><a href="#编译过程概述" class="headerlink" title="编译过程概述"></a>编译过程概述</h3><p>源程序是给人看的，本质上就是文本文件，但是计算机无法直接执行源程序，需要通过编译器将源程序编译为计算机可执行程序。<br><strong>编译过程主要分为词法分析、语法分析、中间代码生成、目标代码生成（忽略预处理，语义分析，优化等）。</strong></p><h3 id="词法分析"><a href="#词法分析" class="headerlink" title="词法分析"></a>词法分析</h3><p>编译的第一阶段是词法分析，目的就是<strong>将字符序列转换为单词序列</strong>。<br>在词法分析阶段能够吃瘪出一些单词的含义，他们包括关键字，数字，字符串，分隔符，比如”int”代表整数类型，它不可能是一个变量名称。<br>进行词法分析的程序或者函数叫做词法分析器，也叫扫描器。</p><h3 id="语法分析"><a href="#语法分析" class="headerlink" title="语法分析"></a>语法分析</h3><p>编译的第二阶段是语法分析，目的是在词法分析的基础上，<strong>将单词序列组合成各类语法短语</strong>。<br>在语法分析器中将C语言语法映射成一套模板，并把这套模板融合在语法分析器的程序中。语法分析器的作用就是将词法分析器中识别出的单词一个一个的与这套模板进行匹配，匹配上这套模板中的某个语法。</p><h4 id="语法树"><a href="#语法树" class="headerlink" title="语法树"></a>语法树</h4><p><strong>定义</strong> : 语法树(abstract syntax tree或者缩写为AST)是源代码抽象语法结构的树状表现形式，这里特指编程语言的源代码。树上的每个节点代表源代码中的一种结构。</p><p>AST主要有三步:</p><ul><li>解析: 将代码祖富春解析成抽象语法树</li><li>转换: 对抽象语法树进行转换操作</li><li>生成: 根据变换后的抽象语法树再生成代码字符串<br><img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/01/23/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%860/%E8%AF%AD%E6%B3%95%E6%A0%91.png" alt="语法树"></li></ul><h4 id="Python语法树"><a href="#Python语法树" class="headerlink" title="Python语法树"></a>Python语法树</h4><p>不同的编程语言有不同的语法树，Python有自带的库ast，可以查看特定的代码被转换成怎样的语法树。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import ast</span><br><span class="line">&gt;&gt;&gt; ast.dump(ast.parse(&quot;(1 + 2) * 3&quot;))</span><br><span class="line">&apos;Module(</span><br><span class="line">    body=[</span><br><span class="line">        Expr(</span><br><span class="line">            value=BinOp(</span><br><span class="line">                left=BinOp(</span><br><span class="line">                    left=Num(n=1), </span><br><span class="line">                    op=Add(), </span><br><span class="line">                    right=Num(n=2)</span><br><span class="line">                ), </span><br><span class="line">                op=Mult(), </span><br><span class="line">                right=Num(n=3)</span><br><span class="line">            )</span><br><span class="line">        )</span><br><span class="line">    ]</span><br><span class="line">)&apos;</span><br></pre></td></tr></table></figure></p><p>BinOp op = Mult()表示乘法运算，与*相对应；<br>BinOp op = Add()表示加法运算，与+相对应；<br>Num n = 1既为数值1。<br> <img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/01/23/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%860/python%E8%AF%AD%E6%B3%95%E6%A0%91.png" alt="Python语法树"></p><h4 id="函数语法树"><a href="#函数语法树" class="headerlink" title="函数语法树"></a>函数语法树</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int fun(int a, int b)&#123;</span><br><span class="line">    int c =  0;</span><br><span class="line">    c = a + b;</span><br><span class="line">    return c; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>fun函数的语法树如下:<br> <img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/01/23/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%860/fun%E5%87%BD%E6%95%B0%E8%AF%AD%E6%B3%95%E6%A0%91.JPG" alt="fun函数语法树"></p><h3 id="中间代码生成"><a href="#中间代码生成" class="headerlink" title="中间代码生成"></a>中间代码生成</h3><p>中间代码的最初设计思想是: 从语法树转换为目标代码,理论和实际都是可行的,但是计算机中存在多种CPU硬件平台,考虑带程序在不同CPU之间的可移植性,先转换为一个通用的抽象的”CPU指令”.<br>选定具体的CPU、操作系统后，中间代码就可以转换为目标代码-汇编代码，这时操作系统的影响还比较小。</p><p>然后由汇编器选定操作系统的目标文件格式，将.s文件转换为具体的目标文件，对于Linux而言是.o文件，对于Windows而言是.obj文件。目标文件已经是选定的CPU机器指令了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;一个简单C语言的运行时结构&quot;&gt;&lt;a href=&quot;#一个简单C语言的运行时结构&quot; class=&quot;headerlink&quot; title=&quot;一个简单C语言的运行时结构&quot;&gt;&lt;/a&gt;一个简单C语言的运行时结构&lt;/h2&gt;&lt;h3 id=&quot;内存划分&quot;&gt;&lt;a href=&quot;#内存划分&quot; class=&quot;headerlink&quot; title=&quot;内存划分&quot;&gt;&lt;/a&gt;内存划分&lt;/h3&gt;&lt;p&gt;C程序运行的核心是函数的执行和调用，它构成了整个C语言运行结构的基础框架。这一运行过程只要是在程序指令的驱动以及数据压栈、清栈的支持下实现的。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="编译原理" scheme="http://yoursite.com/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>计算机组成原理0</title>
+    <link href="http://yoursite.com/2019/01/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%860/"/>
+    <id>http://yoursite.com/2019/01/23/计算机组成原理0/</id>
+    <published>2019-01-23T03:43:42.000Z</published>
+    <updated>2019-01-23T05:09:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>毕业半年多了，这些计算机组成原理， 操作系统这种底层的理论知识，在工作中其实用到的很少很少，但实际上还是很有用的，学习起来也挺有趣的。计算机的知识本来就比较多，要长时间的记住更是很难，我基本上就是现学现忘，现忘现学。以今天这篇博客为序，开始复习计算机基础。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;毕业半年多了，这些计算机组成原理， 操作系统这种底层的理论知识，在工作中其实用到的很少很少，但实际上还是很有用的，学习起来也挺有趣的。计算机的知识本来就比较多，要长时间的记住更是很难，我基本上就是现学现忘，现忘现学。以今天这篇博客为序，开始复习计算机基础。&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+      <category term="计算机组成原理" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>dubbo</title>
+    <link href="http://yoursite.com/2019/01/09/dubbo/"/>
+    <id>http://yoursite.com/2019/01/09/dubbo/</id>
+    <published>2019-01-09T09:45:26.000Z</published>
+    <updated>2019-01-22T14:44:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h3><p><strong>微服务的优势</strong>:</p><ul><li>降低复杂度<a id="more"></a>将原来耦合在一起的复杂业务拆分为单个服务，规避了原本复杂无止境的积累。每一个微服务专注与单一功能，并通过定义良好的接口清洗表述服务边界，每个服务开发者值专注于服务本身，通过使用缓存，DAL等技术手段来提升系统的性能，而对于消费者来说完全透明。</li><li>可独立部署<br>由于微服务具备独立的运行进程，所以每个微服务可以独立部署。当业务迭代时只需要发布相关服务的迭代即可，降低了测试的工作量同时也降低了服务发布的风险。</li><li>容错<br>在微服务架构下，当某一组件发生故障时，故障会被隔离在单个服务中。 通过限流、熔断等方式降低错误导致的危害，保障核心业务正常运行。</li><li>扩展<br>单块架构应用也可以实现横向扩展，就是将整个应用完整的复制到不同的节点。当应用的不同组件在扩展需求上存在差异时，微服务架构便体现出其灵活性，因为每个服务可以根据实际需求独立进行扩展。</li></ul><h3 id="Dubbo简介"><a href="#Dubbo简介" class="headerlink" title="Dubbo简介"></a>Dubbo简介</h3><p>Dubbo 一个由阿里巴巴开源的、分布式的 RPC (Remote Procedure Call Protocol-远程过程调用)和微服务框架，现为Apache顶级项目。</p><p><strong>dubbo工作过程</strong>:</p><p><img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/01/09/dubbo/architecture.png" alt="dubbo工作过程"></p><h3 id="RPC（远程过程调用）"><a href="#RPC（远程过程调用）" class="headerlink" title="RPC（远程过程调用）"></a>RPC（远程过程调用）</h3><p>RPC采用客户机/服务器模式，请求程序是一个客户机，服务提供程序是一个服务器。</p><p><strong>工作原理</strong> :</p><p>运行时,一次客户机对服务器的RPC调用,其内部操作大致有如下十步：</p><ol><li><p>调用客户端句柄；执行传送参数</p></li><li><p>调用本地系统内核发送网络消息</p></li><li><p>消息传送到远程主机</p></li><li><p>服务器句柄得到消息并取得参数</p></li><li><p>执行远程过程</p></li><li><p>执行的过程将结果返回服务器句柄</p></li><li><p>服务器句柄返回结果，调用远程系统内核</p></li><li><p>消息传回本地主机</p></li><li><p>客户句柄由内核接收消息</p></li><li><p>客户接收句柄返回的数据</p></li></ol><p><img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/01/09/dubbo/%E8%BF%9C%E7%A8%8B%E8%BF%87%E7%A8%8B%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B%E5%9B%BE.jpg" alt="RPC工作原理"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;微服务&quot;&gt;&lt;a href=&quot;#微服务&quot; class=&quot;headerlink&quot; title=&quot;微服务&quot;&gt;&lt;/a&gt;微服务&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;微服务的优势&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;降低复杂度
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>SQL优化</title>
+    <link href="http://yoursite.com/2019/01/08/SQL%E4%BC%98%E5%8C%96/"/>
+    <id>http://yoursite.com/2019/01/08/SQL优化/</id>
+    <published>2019-01-08T05:31:10.000Z</published>
+    <updated>2019-02-18T03:55:50.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="优化的目标"><a href="#优化的目标" class="headerlink" title="优化的目标:"></a>优化的目标:</h2><ul><li>减少IO次数</li><li>降低CPU计算</li><li>提高查询效率</li></ul><h2 id="优化的具体措施"><a href="#优化的具体措施" class="headerlink" title="优化的具体措施"></a>优化的具体措施</h2><a id="more"></a><h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><ol><li><p>查询时，尽量避免全表扫描,首先应考虑在where及order by涉及的列上建立索引。</p></li><li><p>应尽量避免在where子句中对字段进行null值判断。否则将导致引擎放弃使用索引，进行全表扫描。</p><p> <code>select id from table_name where col = null</code></p></li><li><p>应尽量避免在where子句中使用 != , &lt;&gt;, 或 not in 操作符，否则引擎将放弃使用索引而全表扫描。</p></li><li><p>应尽量避免在where子句中使用or来连接条件，如果一个字段有索引，另一个字段没有索引，将导致引擎放弃所有索引。</p><p> <code>select id from table_name where col1 = &#39;a&#39; or num = 10</code>    </p><p> 应这样查询</p><p> <code>select id from table_name where col1 = &#39;a&#39;</code></p><p> <code>union all</code></p><p> <code>select id from table_name where num = 10</code></p></li><li><p>尽量避免模糊查询，因为模糊查询会导致全表扫描。 若要提高效率，可以考虑全文检索。</p></li><li><p>在where子句中使用参数，会导致全表扫描。因为SQL只有在运行时才会解析局部变量，单优化程序不能将访问计划的选择推迟到运行时，他必须在编译时就进行选择。因此，如果在编译时就建立访问计划，变量的值还是未知的，无法作为索引选择的输入项。</p><p> 例如下文中会使用全表扫描，不会使用索引:</p><p> <code>select id from table_name where name = @name</code></p><p> 可以改为强制查询使用索引 :</p><p> <code>select id from table_name with (index(index_name)) where name = @name</code></p></li><li><p>应避免在where子句中对字段进行表达式操作，这将导致引擎放弃使用索引进行全表扫描。</p><p> <code>select id from table_name where num/2 = 100</code></p></li><li><p>应避免在where子句中对字段进行函数操作， 这将导致引擎放弃使用索引而进行全表扫描。</p><p> <code>select id from table_name where substring(name,1,3) = &#39;abc&#39;</code></p></li><li><p>不要在where子句中的等号左边进行函数，，算数运算或其他表达式的运算，否则系统将无法正确使用索引。</p></li></ol><ol start="10"><li><p>如果只更新少数字段，不要update全部字段，否则频繁的调用会引起明显的性能消耗。</p></li><li><p>索引并不是越多越好，索引固然可以提高相应的select的效率，单同时也降低了insert和update的效率，因为insert或update时可能会重建索引，所以怎样建立索引需要慎重考虑，视具体情况而定。一个表的索引数最好不要超过6个。</p></li><li><p>任何地方都不要使用select * , 用具体的字段替代 *, 不要返回用不到的字段。</p></li><li><p>尽量使用数字型字段，若只含数值信息的字段尽量不要设计为字符型，这会降低查询h额连接的性能，并会增加存储开销。</p></li><li><p>尽量避免频繁的创建和删除临时表，以减少表资源的消耗。</p></li><li><p>如果使用到了临时表，在存储过程的最后务必将所有的临时表显式删除，先 truncate table ，然后 drop table ，这样可以避免系统表的较长时间锁定。</p></li><li><p>尽可能不要使用游标，他会占用大量资源。</p></li></ol><p>未完…</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;优化的目标&quot;&gt;&lt;a href=&quot;#优化的目标&quot; class=&quot;headerlink&quot; title=&quot;优化的目标:&quot;&gt;&lt;/a&gt;优化的目标:&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;减少IO次数&lt;/li&gt;
+&lt;li&gt;降低CPU计算&lt;/li&gt;
+&lt;li&gt;提高查询效率&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;优化的具体措施&quot;&gt;&lt;a href=&quot;#优化的具体措施&quot; class=&quot;headerlink&quot; title=&quot;优化的具体措施&quot;&gt;&lt;/a&gt;优化的具体措施&lt;/h2&gt;
+    
+    </summary>
+    
+    
+      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>session跨域共享</title>
+    <link href="http://yoursite.com/2019/01/07/session%E8%B7%A8%E5%9F%9F%E5%85%B1%E4%BA%AB/"/>
+    <id>http://yoursite.com/2019/01/07/session跨域共享/</id>
+    <published>2019-01-07T05:40:37.000Z</published>
+    <updated>2019-01-21T09:04:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="session共享"><a href="#session共享" class="headerlink" title="session共享"></a>session共享</h2><p>在一个分布式的环境下，已登录的用户发出多个请求，通过负载均衡，请求可能被不同的服务器处理，因此，我们需要不同服务器间共享session,以保证用户登陆同一个系统，只需要登陆一次。在不同的服务器（tomcat）之间共享session,称为session共享。</p><a id="more"></a><h2 id="session跨域共享"><a href="#session跨域共享" class="headerlink" title="session跨域共享"></a>session跨域共享</h2><p>当我们有多个系统，并且进入这些系统时，只需要登陆一次，也就是说只登陆一次，便可以使用多个系统，这称为跨域。</p><p>session跨域共享就是摒弃了系统（tomcat）提供的session，自定义session的机制，用以多个系统使用同一套登陆。</p><p><img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/01/07/session%E8%B7%A8%E5%9F%9F%E5%85%B1%E4%BA%AB/session%E8%B7%A8%E5%9F%9F%E5%85%B1%E4%BA%AB%E5%8E%9F%E7%90%86.png" alt="session跨域共享"></p><h2 id="单点登陆（single-sign-on）"><a href="#单点登陆（single-sign-on）" class="headerlink" title="单点登陆（single sign on）"></a>单点登陆（single sign on）</h2><p>用户只需要登陆一次就可以访问相互信任的应用系统。</p><p>过程： 用户第一次访问应用系统的时候，如果还没登陆，会被引导到认证系统中进行登陆，根据用户提供的登陆信息，认证系统进行身份校验，如果通过校验，则返回给用户一个认证的凭据（ticket），用户再访问的时候，会把这个ticket带上，作为自己的认证凭据，应用系统接受请求之后会把ticket送到认证系统进行校验，检查ticket的合法性，如果通过校验，用户就可以在不用再次登陆的情况下访问其他系统了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;session共享&quot;&gt;&lt;a href=&quot;#session共享&quot; class=&quot;headerlink&quot; title=&quot;session共享&quot;&gt;&lt;/a&gt;session共享&lt;/h2&gt;&lt;p&gt;在一个分布式的环境下，已登录的用户发出多个请求，通过负载均衡，请求可能被不同的服务器处理，因此，我们需要不同服务器间共享session,以保证用户登陆同一个系统，只需要登陆一次。在不同的服务器（tomcat）之间共享session,称为session共享。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Maven</title>
+    <link href="http://yoursite.com/2018/12/28/Maven/"/>
+    <id>http://yoursite.com/2018/12/28/Maven/</id>
+    <published>2018-12-28T07:37:29.000Z</published>
+    <updated>2019-01-23T03:39:17.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="安装目录"><a href="#安装目录" class="headerlink" title="安装目录:"></a>安装目录:</h3><ul><li>bin: 包含了mvn运行的脚本，这些脚本用来配置java命令，准备好classpath和相关的java系统属性，然后执行 java命令。</li><li>boot:该目录只包含了一个文件，plexus-classworlds是一个类加载器框架，相对于默认<br>的java类加载器，他提供了更丰富的语法以方便配置，mvn使用该框架加载自己的类库。</li><li>conf:该目录包含了一个 非常重要的文件，setting.xml。直接修改该文件，就能在机器<br>上全局的定制Maven的行为。</li></ul><a id="more"></a><h3 id="两个核心概念是：坐标和依赖"><a href="#两个核心概念是：坐标和依赖" class="headerlink" title="两个核心概念是：坐标和依赖:"></a>两个核心概念是：坐标和依赖:</h3><ul><li><p>Maven坐标为各种构件引入了秩序，任何一个构件都必须明确定义自己的坐标，而一组Maven坐标是通过一些元素定义的，他们是groupId，artifactId，version，packaging,classifier。<br>以下是坐标的定义：</p><p>  <code>&lt;groupId&gt;org.sonatype.nexus&lt;/groupId&gt;</code></p><p>  <code>&lt;artifactId&gt;nexus-indexer&lt;/artifactId&gt;</code></p><p>  <code>&lt;version&gt;2.0.0&lt;/version&gt;</code></p><p>  <code>&lt;packaging&gt;jar&lt;/packaging&gt;</code></p></li></ul><p>其中：</p><p>groupId:定义了项目属于哪个组，这个组和项目所在的组织或公司有关；</p><p>artifactId:定义了当前项目在组中唯一的ID</p><p>version：版本</p><h3 id="坐标"><a href="#坐标" class="headerlink" title="坐标"></a>坐标</h3><p>每一个构建都有其唯一的坐标，根据这个坐标可以定义其在仓库中的唯一存储路径。</p><p>对于Maven来说，仓库只有两类：本地库和远程库。当maven根据坐标寻找构建的时候，他首先会查看本地库，如果本地库存在此构件，则直接使用；如果本地库不存在此构件，或者需要查看是否有更新的构件版本，Maven就会去远程仓库查找，发现需要的构件以后下载到本地仓库再使用。如果本地仓库和远程仓库都没有需要的组件，Maven就会报错。</p><h3 id="中央仓库和私服"><a href="#中央仓库和私服" class="headerlink" title="中央仓库和私服"></a>中央仓库和私服</h3><ul><li>中央仓库是Maven核心自带的远程仓科，他包含了大部分开源的构件。在默认配置下，当为本地仓库没有Maven需要的构件的时候，Maven会尝试从中央仓库下载。</li><li>私服是在局域网内假设的一个私有仓库服务器，用其代理所有外语的远程仓库，内部的项目还能部署到私服上供其他项目的使用。</li><li>除了中央仓库和私服，还有很多其他公开的远程仓库。</li></ul><h3 id="快照版本-SNAPSHOT-和发布版本"><a href="#快照版本-SNAPSHOT-和发布版本" class="headerlink" title="快照版本(-SNAPSHOT)和发布版本"></a>快照版本(-SNAPSHOT)和发布版本</h3><p>首先要知道快照版本相对与发布版本是不稳定的。</p><p>当一个快照版本(1.2.0-SNAPSHOT)的构件发布到私服的时候，Maven会自动为构件打上时间戳，有了时间戳，Maven就能随时在仓库中找到1.2.0-SNAPSHOT的最新文件。默认情况下，Maven每天检查一次更新。但基于快照版本机制，当有人调用1.2.0-SNAPSHOT的时候，maven能够确保得到最新可用的快照构件。<br>当项目经过完善的测试后需要发布的时候，就应该将快照版本改为发布版本，以确保每个人使用该构件时对应了唯一的构件。</p><h3 id="三套生命周期-三套生命周期是相互独立的"><a href="#三套生命周期-三套生命周期是相互独立的" class="headerlink" title="三套生命周期(三套生命周期是相互独立的)"></a>三套生命周期(三套生命周期是相互独立的)</h3><p><strong>1.clean生命周期</strong>:</p><p>目的：清理项目</p><p>阶段：</p><ul><li>pre-clean 执行一些清理钱需要完成的工作。</li><li>clean执行上一次构建生成的文件</li><li>post-clean执行一些清理后要完成的工作</li></ul><p><strong>2.Default生命周期</strong>：</p><p>Default生命周期定义了真正构建时所需要执行的所有步骤，是所有生命周期中最核心的部分。部分阶段如下：</p><ul><li>validate</li><li>initialize</li><li>compile：编译项目的主源码，一般是src/main/java目录下的java文件</li><li>package: 接受编译好的代码，打包成可发布的格式，如jar</li><li>install:将包安装到maven本地仓库，供本地其他Maven项目使用</li><li>deploy：将最终的包复制到远程仓库，供开发人员和Maven项目使用。</li></ul><p><strong>3.Site生命周期：</strong></p><p>目的：建立和发布站点</p><p>阶段：</p><ul><li>pre-site执行一些生成项目站点之前需要完成的工作。</li><li>site生成项目站点文档</li><li>post-site执行一些在生成项目站点只有需要完成的工作</li><li>site-deploy将生成的项目站点发布到服务器上。</li></ul><h3 id="Maven在依赖管理中有以下几个原则"><a href="#Maven在依赖管理中有以下几个原则" class="headerlink" title="Maven在依赖管理中有以下几个原则"></a>Maven在依赖管理中有以下几个原则</h3><ol><li>依赖是使用Maven坐标来定位的，而Maven坐标主要由GAV（groupId, artifactId, version）构成。如果两个相同的依赖包，如果groupId, artifactId, version不同，那么maven也认为这两个是不同的。</li><li>依赖会传递，A依赖了B，B依赖了C，那么A的依赖中就会出现B和C。</li><li>Maven对同一个groupId, artifactId的冲突仲裁，不是以version越大越保留，而是依赖路径越短越优先，然后进行保留。</li><li>依赖的scope会影响依赖的影响范围。</li></ol><h3 id="出现了依赖冲突时如何定位冲突原因"><a href="#出现了依赖冲突时如何定位冲突原因" class="headerlink" title="出现了依赖冲突时如何定位冲突原因"></a>出现了依赖冲突时如何定位冲突原因</h3><p>但出现了冲突的时候，比如系统出现了NoSuchMethodError，LinkageError 很有可能是你系统中出现了依赖冲突。出现冲突以后，可以按以下的步骤执行</p><ul><li>确定出了问题的jar包名称。通常可以在eclipse中查找冲突的类有在哪些依赖包里面出现了。并确定实际要使用的是那个包，冲突的包有哪些。</li><li>通过mvn dependency:tree  &gt;  tree.txt 导出全部的依赖。</li><li>在导出的依赖文件中，查找问题相关的jar。确定这些jar是如何被依赖进来的，是直接依赖的还是通过传递依赖引入的。</li><li>找到相互冲突的并需要排除的依赖的顶级依赖,并分析冲突的原因，冲突的原因可能是以下几种：<br>1.同一个jar包但groupId, artifactId不同，这种冲突只能通过设定依赖的<exclusions> 来进行排除<br>2.需要的版本jar包依赖路径较长，这种冲突可以把想要版本的依赖直接什么在依赖中，这样路径就最短了优先级最高。</exclusions></li><li>最后可以通过打包mvn install 来确认打出来的war包中是否有被排除的依赖。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;安装目录&quot;&gt;&lt;a href=&quot;#安装目录&quot; class=&quot;headerlink&quot; title=&quot;安装目录:&quot;&gt;&lt;/a&gt;安装目录:&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;bin: 包含了mvn运行的脚本，这些脚本用来配置java命令，准备好classpath和相关的java系统属性，然后执行 java命令。&lt;/li&gt;
+&lt;li&gt;boot:该目录只包含了一个文件，plexus-classworlds是一个类加载器框架，相对于默认&lt;br&gt;的java类加载器，他提供了更丰富的语法以方便配置，mvn使用该框架加载自己的类库。&lt;/li&gt;
+&lt;li&gt;conf:该目录包含了一个 非常重要的文件，setting.xml。直接修改该文件，就能在机器&lt;br&gt;上全局的定制Maven的行为。&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>数据库</title>
+    <link href="http://yoursite.com/2018/12/25/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    <id>http://yoursite.com/2018/12/25/数据库/</id>
+    <published>2018-12-25T15:25:45.000Z</published>
+    <updated>2019-02-27T11:13:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="完整性约束"><a href="#完整性约束" class="headerlink" title="完整性约束"></a>完整性约束</h3><ul><li><strong>实体完整性</strong>: 实体完整性是指表中行的完整性，主要用于保证操作的数据（记录）非空，唯一且不重复。即:<em>实体完整性要求每个表有且仅有一个主键，每个主键值唯一，而且不允许为空或重复</em></li><li><strong>参照完整性</strong>: 参照完整性属于表间规则，对于永久关系的相关表，在更新插入或删除记录时，如果只改其一，则影响其数据的完整性。即<em>外键的取值必须是另一个表的主键的有效值或者空值</em></li><li><strong>用户定义完整性</strong>: 用户自定义完整性是对数据表中字段属性的约束，包括字段的值域，字段的类型，字段的有效规则等约束。如：百分制成绩的取值范围是0-100.<a id="more"></a></li></ul><h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><p>数据库事务是作为一个逻辑工作单元执行的一系列操作,要么完全执行，要么完全不执行。</p><p>事务的属性: 一致性，原子性，隔离性，持久性</p><ul><li><strong>原子性</strong> : 一个事务包含多个操作，这些操作要么全部执行，要么都不执行。即<em>某个操作失败后会回滚到事务执行之前的状态</em></li><li><strong>一致性</strong> : 一致性是对数据可见性的约束，保证在一个事务中的多次操作的数据中间状态对其他事务是不可见的，因为这些中间状态是一个过度状态，与事务的开始状态和事务的结束状态是不一致的。</li><li><strong>隔离性</strong> : 并发事务之间互相影响的程度。</li><li><strong>持久性</strong> : 事务提交后，对系统的影响是永久的。</li></ul><h3 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h3><h4 id="存储过程定义"><a href="#存储过程定义" class="headerlink" title="存储过程定义"></a>存储过程定义</h4><p>存储过程就是作为一个可执行对象存放在数据库中的一个或多个SQL命令。</p><h4 id="那为什么要用存储过程呢？"><a href="#那为什么要用存储过程呢？" class="headerlink" title="那为什么要用存储过程呢？"></a>那为什么要用存储过程呢？</h4><ul><li>存储过程只在创造时进行编译，以后每次执行存储过程都不需要再编译，而一般的SQL语句每执行一次就编译一次，所以使用存储过程可提高数据库执行速度。</li><li>当对数据库进行复杂操作时，可将此复杂操作用存储过程封装起来与数据库提供的事务处理结合一起使用。</li><li>存储过程可以重复使用，可减少数据库开发人员的工作量。</li><li>安全性高，可设定只有某些用户才具有对指定存储过程的使用权，<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create proc StuProc</span><br><span class="line">as //此处 as 不可以省略不写</span><br><span class="line">begin //begin 和 end 是一对，不可以只写其中一个，但可以都不写</span><br><span class="line">select S#,Sname,Sage,Ssex from student</span><br><span class="line">end</span><br><span class="line">go</span><br></pre></td></tr></table></figure></li></ul><h3 id="SQL语句"><a href="#SQL语句" class="headerlink" title="SQL语句"></a>SQL语句</h3><ul><li>SQL数据定义语句的操作对象： 模式， 表， 视图， 索引。</li><li>SQL数据定义语句的命令动词： CREATE, DROP, ALTER.</li><li>RDBMS（Relational Database Management System， 关系数据库管理系统）中索引一般采用B+树或Hash来实现</li><li>索引可以分为唯一索引，非唯一索引和聚簇索引</li></ul><p><strong>查询条件</strong> : </p><table><thead><tr><th style="text-align:center">查询条件</th><th style="text-align:center">运算符</th></tr></thead><tbody><tr><td style="text-align:center">比较</td><td style="text-align:center">=, &gt;=, &lt;=, &gt;, &lt;, &lt;&gt;, !&gt;, !&lt;</td></tr><tr><td style="text-align:center">确定范围</td><td style="text-align:center">BETWEEN AND, NOT BETWEEN AND</td></tr><tr><td style="text-align:center">确定集合</td><td style="text-align:center">IN, NOT IN</td></tr><tr><td style="text-align:center">字符匹配</td><td style="text-align:center">LIKE, NOT LIKE</td></tr><tr><td style="text-align:center">空值</td><td style="text-align:center">IS NULL, IS NOT NULL</td></tr><tr><td style="text-align:center">多重条件</td><td style="text-align:center">AND, OR, NOT</td></tr></tbody></table><p><strong>操作对象</strong> : </p><table><thead><tr><th>操作对象</th><th>创建</th><th>删除</th><th>修改</th></tr></thead><tbody><tr><td>模式</td><td>CREATE SCHEMA</td><td>DROP SCHEMA</td><td></td></tr><tr><td>表</td><td>CREATE TABLE</td><td>DROP TABLE</td><td>ALTER TABLE</td></tr><tr><td>视图</td><td>CREATE VIEW</td><td>DROP VIEW</td><td></td></tr><tr><td>索引</td><td>CREATE INDEX</td><td>DROP INDEX</td></tr></tbody></table><p><strong>实例</strong>:</p><ol><li><p>创建数据库:</p><p> <code>create database database_name</code></p></li><li><p>删除数据库 :</p><p> <code>drop database database_name</code></p></li><li><p>创建新表 :</p><p> <code>create table table_name (table_id not null primary key, col1 type1, ...  )</code></p></li><li><p>删除新表 :</p><p> <code>drop table table_name</code></p></li><li><p>增加一个列 :</p><p> <code>alter table table_name add column col type</code></p></li><li><p>添加主键 :</p><p> <code>alter table table_name add primary key (col)</code></p></li><li><p>删除主键 :</p><p> <code>alter table table_name drop primary key(col)</code></p></li><li><p>创建索引 :</p><p> <code>create [unique] index index_name on table_name(col, ...)</code></p></li><li><p>删除索引 :</p><p> <code>drop index index_name</code></p></li></ol><pre><code>注意 : 索引是不能修改的，所以想更改必须删除重建</code></pre><ol start="9"><li><p>创建视图 :</p><p> `create view view_name as (select …)</p></li><li><p>删除视图 :</p><p><code>drop view view_name</code></p></li><li><p>UNION运算符 和 UNION ALL 运算符 :</p><p><strong>UNION消除重复行</strong></p><p><code>select column_names from table_name1 UNION select column_names from table_name2</code></p><p><strong>UNION ALL 不消除重复行</strong></p><p><code>select column_names from table_name1 UNION ALL select column_names from table_name2</code></p></li></ol><h3 id="乐观锁与悲观锁"><a href="#乐观锁与悲观锁" class="headerlink" title="乐观锁与悲观锁"></a>乐观锁与悲观锁</h3><p><strong>悲观锁</strong>: 就是很悲观，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁。传统的关系数据库里边就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。它指的是数据被修改的时候保持保守态度，因此，在整个数据处理过程中，将数据处于锁定状态。悲观锁的实现，往往依靠数据库提供的锁机制。</p><p><strong>乐观锁</strong>: 相对悲观锁而言，乐观锁采取了更加宽松的加锁机制。<em>乐观锁大多是基于数据版本（Version）记录机制实现</em>，读取数据时，将此版本号一同读出，之后更新时，对此版本号加一。此时，将提交数据的版本数据与数据库对应记录的当前版本信息进行比对，如果提交的数据版本号大于数据库表当前版本号，则给予更新，否则认为是过期数据。</p><p><strong>适用场景</strong></p><ul><li>乐观锁: 多读场景（这样冲突很少发生，省去了锁的开销，增加了系统的吞吐量）</li><li>悲观锁: 多写场景（经常产生冲突,上层应用会不断的进行retry，反而降低了性能，因此悲观锁比较适合）</li></ul><h3 id="临时表"><a href="#临时表" class="headerlink" title="临时表"></a>临时表</h3><p>临时表是建立在系统临时文件夹中的表，如果使用得当，完全可以像普通表一样进行操作。</p><p><strong>临时表有两种类型： 本地表和全局表。</strong></p><p><strong>本地表</strong>：存在于首次创建或引用表的实例连接期间，本地临时表对于创建者是可见的,当断开连接后，会删除临时表.</p><p><strong>全局表</strong>: 全局表对于任何用户和任何连接都是可见的，当引用该表的所有用户都断开连接后，将删除全局临时表。</p><p>临时表存储在tempdb中，因此临时表的访问是有可能造成物理IO的。</p><p>临时表可以有索引。</p><h3 id="表变量"><a href="#表变量" class="headerlink" title="表变量"></a>表变量</h3><p>表变量存储在内存中。也分为本地和全局两种</p><p>表变量存放在内存是有一定限制的，如果表变量数据量超过阈值，会把内存耗尽，然后使用TempDB的空间，这样主要还是使用硬盘空间，但同时把内存基本耗尽，增加了内存调入调出的机会，反而降低速度。</p><h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p><strong>索引实际上是一种数据结构</strong>，能够帮助数据库高效获取数据。</p><h3 id="为什么会有索引这种数据结构？"><a href="#为什么会有索引这种数据结构？" class="headerlink" title="为什么会有索引这种数据结构？"></a>为什么会有索引这种数据结构？</h3><p>优化的查找算法如：二分查找(binary search),二叉树查找(binary tree search)等。<br>但是!各种查找算法对检索的数据都有要求:</p><ul><li>二分查找要求被检索数据有序</li><li>二叉树查找只能应用到二叉树上<br>所以，在数据之外，数据库系统还维护着满足特定查找算法的数据结构，这些数据结构以某种方式指向数据，这样就可以在这些数据结构上实现高级查找算法。</li></ul><h3 id="B-Tree和B-Tree"><a href="#B-Tree和B-Tree" class="headerlink" title="B-Tree和B+Tree"></a>B-Tree和B+Tree</h3><p><strong>目前大部分数据库系统及文件系统都采用B-Tree或其变种B+Tree作为索引</strong>。</p><p>那么<strong>为什么会使用B-Tree或B+Tree</strong>？</p><p>一般来说，索引本身也很大，不可能全部存储在内存中，因此索引往往以索引文件的形式存储的磁盘上。这样的话，索引查找过程中就要产生磁盘I/O消耗，相对优于内存存取，I/O存取的消耗要高几个数量级，所以评价一个数据结构作为索引的优劣最重要的指标就是在查找过程中磁盘I/O操作次数的渐进复杂度。换句话说，索引的结构组织要尽量减少查找过程中磁盘I/O的存取次数。</p><h2 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h2><h3 id="笛卡尔积"><a href="#笛卡尔积" class="headerlink" title="笛卡尔积"></a>笛卡尔积</h3><p><strong>笛卡尔积</strong>:笛卡尔乘积在数学中，是指两个集合X和Y的笛卡尔积，又称直积<br>假设集合A={a,b},和集合B={0,1,2},则两个集合的笛卡尔积为{(a,0),(a,1),(a,2),(b,0),(b,1),(b,2)}</p><h3 id="多表联查"><a href="#多表联查" class="headerlink" title="多表联查"></a>多表联查</h3><p>A表</p><table><thead><tr><th>id</th><th>name</th></tr></thead><tbody><tr><td>1</td><td>张三</td></tr><tr><td>2</td><td>李四</td></tr><tr><td>3</td><td>王五</td></tr></tbody></table><p>B表</p><table><thead><tr><th>id</th><th>job</th><th>parent_id</th></tr></thead><tbody><tr><td>1</td><td>11</td><td>1</td></tr><tr><td>2</td><td>22</td><td>2</td></tr><tr><td>3</td><td>33</td><td>4</td></tr></tbody></table><hr><ul><li><strong>内连接</strong>结果:<br><code>select A.*, B.* from A inner join B on A.id = B.parent_id;</code></li></ul><table><thead><tr><th>A.id</th><th>name</th><th>B.id</th><th>job</th><th>parent_id</th></tr></thead><tbody><tr><td>1</td><td>张三</td><td>1</td><td>11</td><td>1</td></tr><tr><td>2</td><td>李四</td><td>2</td><td>22</td><td>2</td></tr></tbody></table><p>内连接相当于取两个表的<strong>交集</strong></p><ul><li><strong>左外连接</strong>的结果:<br><code>select A.*, B.* from A left join B on A.id=B.parent_id;</code></li></ul><table><thead><tr><th>A.id</th><th>name</th><th>B.id</th><th>job</th><th>parent_id</th></tr></thead><tbody><tr><td>1</td><td>张三</td><td>1</td><td>11</td><td>1</td></tr><tr><td>2</td><td>李四</td><td>2</td><td>22</td><td>2</td></tr><tr><td>3</td><td>王五</td><td>null</td><td>null</td><td>null</td></tr></tbody></table><p>A表为主表</p><ul><li><strong>右外连接</strong>的结果:<br><code>select A.*, B.* from  right join B on A.id=B.parent_if;</code></li></ul><table><thead><tr><th>A.id</th><th>name</th><th>B.id</th><th>job</th><th>parent_id</th></tr></thead><tbody><tr><td>1</td><td>张三</td><td>1</td><td>11</td><td>1</td></tr><tr><td>2</td><td>李四</td><td>2</td><td>22</td><td>2</td></tr><tr><td>null</td><td>null</td><td>3</td><td>33</td><td>4</td></tr></tbody></table><p>B表为主表</p><ul><li><strong>交叉连接</strong>的结果:<br><strong>交叉连接是实现的是两个表笛卡尔积的结果</strong><br><code>select A.*, B.* from A cross join B;</code></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;完整性约束&quot;&gt;&lt;a href=&quot;#完整性约束&quot; class=&quot;headerlink&quot; title=&quot;完整性约束&quot;&gt;&lt;/a&gt;完整性约束&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;实体完整性&lt;/strong&gt;: 实体完整性是指表中行的完整性，主要用于保证操作的数据（记录）非空，唯一且不重复。即:&lt;em&gt;实体完整性要求每个表有且仅有一个主键，每个主键值唯一，而且不允许为空或重复&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;参照完整性&lt;/strong&gt;: 参照完整性属于表间规则，对于永久关系的相关表，在更新插入或删除记录时，如果只改其一，则影响其数据的完整性。即&lt;em&gt;外键的取值必须是另一个表的主键的有效值或者空值&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;用户定义完整性&lt;/strong&gt;: 用户自定义完整性是对数据表中字段属性的约束，包括字段的值域，字段的类型，字段的有效规则等约束。如：百分制成绩的取值范围是0-100.
+    
+    </summary>
+    
+    
+      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
   </entry>
   
@@ -85,6 +369,84 @@
     
     
       <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python虚拟环境</title>
+    <link href="http://yoursite.com/2018/12/23/python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/"/>
+    <id>http://yoursite.com/2018/12/23/python虚拟环境/</id>
+    <published>2018-12-23T04:39:39.000Z</published>
+    <updated>2019-01-29T02:43:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="虚拟环境virtualenv用法"><a href="#虚拟环境virtualenv用法" class="headerlink" title="虚拟环境virtualenv用法"></a>虚拟环境virtualenv用法</h1><h2 id="virtualenv"><a href="#virtualenv" class="headerlink" title="virtualenv"></a>virtualenv</h2><ol><li><p>首先升级pip</p><p> <code>pip install --upgrade pip</code></p></li><li><p>安装virtualenv</p><p>  <code>pip install virtualenv</code></p></li></ol><a id="more"></a><ol start="3"><li><p>测试安装</p><p> <code>virtualenv --version</code></p></li><li><p>搭建虚拟环境</p><p> <code>virtualenv test</code></p></li></ol><ol start="5"><li><p>设置虚拟环境python版本</p><p> <code>virtualenv -p python3 test</code></p></li><li><p>当前目录下，启动虚拟环境</p><p> <code>souce  test/bin/ activate</code></p></li><li><p>使用</p><p> <code>pip install requests</code></p></li><li><p>停用虚拟环境</p><p> <code>deactivate</code></p></li></ol><h2 id="virtualenvwrapper"><a href="#virtualenvwrapper" class="headerlink" title="virtualenvwrapper"></a>virtualenvwrapper</h2><ol><li><p>进入虚拟环境</p><p> <code>workon vir_name</code></p></li><li><p>创建虚拟环境</p><p> <code>mkvirtualenv vir_name</code></p></li><li><p>终止虚拟环境</p><p> <code>deactive</code></p></li></ol><p><strong>注</strong> :</p><p>不通的系统环境，配置文件的位置可能不一样<br>每次要想使用virtualenvwrapper 工具时，都必须先激活<code>virtualenvwrapper.sh</code>， 另外，如果创建前要将即将的环境保存到Envs中，就要先设置一下环境变量：export WORKON_HOME=~/Envs，再搭建</p><p><a href="https://www.cnblogs.com/freely/p/8022923.html" target="_blank" rel="noopener">参考文章</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;虚拟环境virtualenv用法&quot;&gt;&lt;a href=&quot;#虚拟环境virtualenv用法&quot; class=&quot;headerlink&quot; title=&quot;虚拟环境virtualenv用法&quot;&gt;&lt;/a&gt;虚拟环境virtualenv用法&lt;/h1&gt;&lt;h2 id=&quot;virtualenv&quot;&gt;&lt;a href=&quot;#virtualenv&quot; class=&quot;headerlink&quot; title=&quot;virtualenv&quot;&gt;&lt;/a&gt;virtualenv&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;首先升级pip&lt;/p&gt;
+&lt;p&gt; &lt;code&gt;pip install --upgrade pip&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;安装virtualenv&lt;/p&gt;
+&lt;p&gt;  &lt;code&gt;pip install virtualenv&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+    
+      <category term="virtualenv" scheme="http://yoursite.com/tags/virtualenv/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker</title>
+    <link href="http://yoursite.com/2018/12/23/Docker/"/>
+    <id>http://yoursite.com/2018/12/23/Docker/</id>
+    <published>2018-12-23T04:20:50.000Z</published>
+    <updated>2019-01-22T15:14:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令 :"></a>基本命令 :</h2><p>查看所有镜像：</p><p><code>docker images</code></p><p><code>docker image ls</code></p><p>查看所有的容器：</p><p><code>docker ps -a</code></p><p>查看运行中的容器：</p><p><code>docker ps</code></p><p>删除镜像：</p><a id="more"></a><p><code>docker rmi image_id</code></p><p>删除容器：</p><p><code>docker rm container_id</code></p><p>查找镜像：</p><p><code>docker search imager_name</code>    // docker search mysql</p><p>下载镜像：</p><p><code>docker pull imager_name</code></p><p>启动容器，并且创建一个具有tty伪终端</p><p><code>docker run -it image_name /bin/bash</code></p><p>-t：是带终端<br>-d：在后台运行<br>-P：</p><p>暂停容器：</p><p><code>docker stop container_name</code></p><p>停止正在运行的所有容器：</p><p><code>docker kill $(sudo docker ps -q)</code></p><p>临时退出一个正在交互的容器终端，而不终止他</p><p><code>先按ctrl+p， 后按ctrl+q</code></p><p> 如果按ctrl+c会使容器内的应用进程终止，进而会使容器终止 </p><h2 id="dockerfile语法"><a href="#dockerfile语法" class="headerlink" title="dockerfile语法"></a>dockerfile语法</h2><p><code>ADD</code>：从源系统的文件系统复制文件到目标容器的文件系统<br>    ADD命令有两个参数，源和目标。</p><p><code>ADD /local_folder    /container_folder</code></p><p><code>CMD</code>：和RUN命令类似，CMD可以用于执行特定的命令。和RUN不同的是，这些命令不是在镜像都建的过程中执行的，而是在用镜像构件容器后被调用的。</p><p><code>CMD &#39;echo&#39; &#39;&#39;hello world!&#39;</code></p><p><code>ENV</code>: 用于设置环境变量，变量以‘key=value’的形式存在，并且可以在容器内被脚本或者程序调用。</p><p><code>ENV JAVA_HOME /usr/local/jdk1.8.0_144</code></p><p><code>EXPOSE</code>: 用来指定端口，使容器内的应用可以通过端口和外界交互</p><p><code>EXPOSE 8080</code></p><p><code>FROM</code>： 定义了使用哪个基础镜像启动构件流程。基础镜像可以为任意镜像，如果基础镜像没有被发现，docker将师徒从docker image index 来查找该镜像。</p><p><code>from ubuntu</code></p><p><code>MAINTAINER</code>:建议这个命令放在dockerfile的起始部分，虽然理论上可以放在任意位置，这个命令用于声明作者,放在FROM命令后面</p><p><code>MAINTAINER author_name</code></p><p><code>USER</code>:用于设置运行容器的UID</p><p><code>USER 888</code></p><p><code>RUN</code>：RUN命令是dockerfile执行命令的核心部分，他接受命令作为参数并用于创建镜像。</p><p><code>RUN aptitude install -y riak</code></p><p><code>VOLUME</code>: 用于让你的容器访问宿主机上的目录</p><p><code>VOLUME /usr/local/</code></p><p><code>WORKDIR</code>：用于设置CMD指明的命令运行的目录</p><p><code>WORKDIR ~/</code></p><p><code>ENTERPOINT</code>:设置容器的入口程序</p><h3 id="示例1：构建jdk1-8的镜像"><a href="#示例1：构建jdk1-8的镜像" class="headerlink" title="示例1：构建jdk1.8的镜像"></a>示例1：构建jdk1.8的镜像</h3><p>（需要注意的是：jdk-8u191-linux-x64.tar.gz是在本地已经下载好的包，需要放在当前目录下）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line"></span><br><span class="line">MAINTAINER  lfs</span><br><span class="line"></span><br><span class="line">ADD jdk-8u191-linux-x64.tar.gz  /usr/local/</span><br><span class="line"></span><br><span class="line">ENV JAVA_HOME /usr/local/jdk1.8.0_144</span><br><span class="line">ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line">ENV PATH $PATH:$JAVA_HOME/bin</span><br></pre></td></tr></table></figure></p><p>详情：<a href="https://blog.csdn.net/wo18237095579/article/details/80540571" target="_blank" rel="noopener">docker定制镜像</a></p><h2 id="docker中安装vim"><a href="#docker中安装vim" class="headerlink" title="docker中安装vim"></a>docker中安装vim</h2><figure class="highlight plain"><figcaption><span>/etc/apt/sources.list</span><a href="/etc/apt/sources.list.bak">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb http://mirrors.163.com/debian/ jessie main non-free contrib&quot; &gt;/etc/apt/sources.list</span><br><span class="line">echo &quot;deb http://mirrors.163.com/debian/ jessie-proposed-updates main non-free contrib&quot; &gt;&gt;/etc/apt/sources.list</span><br><span class="line">echo &quot;deb-src http://mirrors.163.com/debian/ jessie main non-free contrib&quot; &gt;&gt;/etc/apt/sources.list</span><br><span class="line">echo &quot;deb-src http://mirrors.163.com/debian/ jessie-proposed-updates main non-free contrib&quot; &gt;&gt;/etc/apt/sources.list</span><br><span class="line">apt-get update</span><br><span class="line">apt-get install -y vim</span><br></pre></td></tr></table></figure><h3 id="4-docker-本地镜像存放在"><a href="#4-docker-本地镜像存放在" class="headerlink" title="4.docker 本地镜像存放在:"></a>4.docker 本地镜像存放在:</h3><pre><code>Docker相关的本地资源存放在var/lib/docker/目录下,其中containers目录存放容器信息，image目录存放镜像信息，aufs目录下存放具体的镜像底层文件。</code></pre><h3 id="5-构建docker镜像应注意哪些原则："><a href="#5-构建docker镜像应注意哪些原则：" class="headerlink" title="5.构建docker镜像应注意哪些原则："></a>5.构建docker镜像应注意哪些原则：</h3><pre><code>整体原则上，尽量保持镜像功能的明确和内容的精简，要点包括：（1）尽量选择满足需求但较小的基础系统镜像（2）清理编译生成文件，安装包的缓存等临时文件（3）安装各个软件时候要指定准确的版本号，并避免引入不必要的依赖（4）从安全的角度考虑，应尽量使用系统的库和依赖（5）使用dockerfile创建镜像时要添加.dockerignore文件或者使用干净的工作目录</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;基本命令&quot;&gt;&lt;a href=&quot;#基本命令&quot; class=&quot;headerlink&quot; title=&quot;基本命令 :&quot;&gt;&lt;/a&gt;基本命令 :&lt;/h2&gt;&lt;p&gt;查看所有镜像：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker images&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker image ls&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;查看所有的容器：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker ps -a&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;查看运行中的容器：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker ps&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;删除镜像：&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>REST风格</title>
+    <link href="http://yoursite.com/2018/12/22/REST%E9%A3%8E%E6%A0%BC/"/>
+    <id>http://yoursite.com/2018/12/22/REST风格/</id>
+    <published>2018-12-22T04:40:33.000Z</published>
+    <updated>2019-01-22T08:50:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="REST（Representational-State-Transfer）表述性状态转移"><a href="#REST（Representational-State-Transfer）表述性状态转移" class="headerlink" title="REST（Representational State Transfer）表述性状态转移"></a>REST（Representational State Transfer）表述性状态转移</h3><p> REST不仅是一种设计风格，更是在系统开发过程中一种新的思想</p><h3 id="具体实现应遵循的四个基本设计原则"><a href="#具体实现应遵循的四个基本设计原则" class="headerlink" title="具体实现应遵循的四个基本设计原则"></a>具体实现应遵循的四个基本设计原则</h3><ul><li>显式的使用HTTP方法</li><li>无状态</li><li>公开目录结构式的URI</li><li>传输XML, JavaScript Object Notation（json），或者同时传输这两者</li></ul><a id="more"></a><h3 id="显式的使用HTTP方法："><a href="#显式的使用HTTP方法：" class="headerlink" title="显式的使用HTTP方法："></a>显式的使用HTTP方法：</h3><p>REST 要求开发人员显式地使用 HTTP 方法，并且使用方式与协议定义一致。 这个基本 REST 设计原则建立了创建、读取、更新和删除（create, read, update, and delete，CRUD）操作与 HTTP 方法之间的一对一映射。</p><p>并且根据映射，有以下规定：</p><ul><li>若要在服务器上创建资源，应该使用POST方法</li><li>若要检索某个资源，应该使用GET方法</li><li>若要更改资源状态或对其进行更新，应使用PUT方法</li><li>若要删除某个资源，应该使用DELETE方法、</li></ul><h3 id="无状态"><a href="#无状态" class="headerlink" title="无状态"></a>无状态</h3><ol><li><p>REST Web 服务需要扩展以满足日益提高的性能要求。 具有负载平衡和故障转移功能、代理和网关的服务器集群通常以形成服务拓扑的方式进行组织，从而允许根据需要将请求从一个服务器路由到另一个服务器，以减少 Web 服务调用的总体响应时间。 要使用中间服务器扩大规模，REST Web 服务需要发送完整、独立的请求；也就是说，发送的请求包括所有需要满足的数据，以便中间服务器中的组件能够进行转发、路由和负载平衡，不需要在请求之间在本地保存任何状态。</p></li><li><p>完整、独立的请求不要求服务器在处理请求时检索任何类型的应用程序上下文或状态。</p><p> 有状态的设计：</p><p> <img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2018/12/22/REST%E9%A3%8E%E6%A0%BC/Image-1.gif" alt="有状态的设计"></p><p> 无状态的设计：</p><p> <img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2018/12/22/REST%E9%A3%8E%E6%A0%BC/Image-2.gif" alt="无状态的设计"></p></li><li><p>基于 REST 的 Web 服务设计方面划分为两组职责，以阐明如何维护无状态的服务</p></li></ol><ul><li><p>服务器：<br>  生成响应，其中包括指向其他资源的链接，以使得应用程序可以在相关资源之间导航（即请求的转发）。 此类响应嵌入了链接。 类似地，如果请求是针对父或容器资源，则基于 REST 的典型响应还可能包括指向父资源的子资源或从属资源的链接，以便这些资源保持连接在一起。<br>  生成响应，其中指明了是否可缓存（设置是否缓存），以通过减少针对重复资源的请求数量或通过完全消除某些请求来改进性能。 服务器通过包括 Cache-Control 和 Last-Modified（日期值）HTTP 响应 Header 实现此目的。</p></li><li><p>客户端应用程序：<br>  使用 Cache-Control 响应 Header 确定是否缓存资源（创建资源的本地副本）。 客户端还读取 Last-Modified 响应 Header，并在 If-Modified-Since Header 中发回日期值，以向服务器询问资源是否已更改。 这称为条件 GET (Conditional GET)，两个 Header 同时进行，因为服务器的响应为标准 304 代码 (Not Modified)，如果请求的资源自从该时间以后尚未更改，则省略实际的资源。 HTTP 响应代码 304 意味着客户端可以安全地将资源表示形式的缓存本地副本作为最新版本使用，从而实际上跳过了后续 GET 请求，直到资源更改为止。<br>  发送可独立于其他请求得到服务的完整请求。 这要求客户端充分利用 Web 服务接口指定的 HTTP Header，并在请求正文中发送完整的资源表示形式。 客户端发送的请求极少对先前的请求、某个会话在服务器上的存在性、服务器向请求添加上下文的能力或请求之间保留的应用程序状态做出假设。</p></li></ul><h3 id="公开目录结构式的URI"><a href="#公开目录结构式的URI" class="headerlink" title="公开目录结构式的URI"></a>公开目录结构式的URI</h3><p>基本规则如下：</p><p><code>http://www.myservice.org/discussion/{year}/{day}/{month}/{topic}</code></p><p><strong>附加规则:</strong></p><ul><li>隐藏服务器端脚本技术文件扩展名（.jsp 、.php、 .asp）</li><li>将所有内容保持小写</li><li>将空格替换为连字符活下划线</li><li>尽可能多的避免查询字符串</li><li>如果请求URI用于部分路径，与使用404 Not Found代码不同，应该始终提供缺省页面或资源作为响应</li></ul><p>参考文章：<a href="https://www.ibm.com/developerworks/cn/webservices/ws-restful/#artrelatedtopics" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/webservices/ws-restful/#artrelatedtopics</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;REST（Representational-State-Transfer）表述性状态转移&quot;&gt;&lt;a href=&quot;#REST（Representational-State-Transfer）表述性状态转移&quot; class=&quot;headerlink&quot; title=&quot;REST（Representational State Transfer）表述性状态转移&quot;&gt;&lt;/a&gt;REST（Representational State Transfer）表述性状态转移&lt;/h3&gt;&lt;p&gt; REST不仅是一种设计风格，更是在系统开发过程中一种新的思想&lt;/p&gt;
+&lt;h3 id=&quot;具体实现应遵循的四个基本设计原则&quot;&gt;&lt;a href=&quot;#具体实现应遵循的四个基本设计原则&quot; class=&quot;headerlink&quot; title=&quot;具体实现应遵循的四个基本设计原则&quot;&gt;&lt;/a&gt;具体实现应遵循的四个基本设计原则&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;显式的使用HTTP方法&lt;/li&gt;
+&lt;li&gt;无状态&lt;/li&gt;
+&lt;li&gt;公开目录结构式的URI&lt;/li&gt;
+&lt;li&gt;传输XML, JavaScript Object Notation（json），或者同时传输这两者&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="REST" scheme="http://yoursite.com/tags/REST/"/>
     
   </entry>
   

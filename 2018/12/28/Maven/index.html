@@ -15,20 +15,18 @@
 
 
 
-<meta name="description" content="Java集合框架介绍Java的集合框架有下图所示：">
-<meta name="keywords" content="Java">
+<meta name="description" content="安装目录: bin: 包含了mvn运行的脚本，这些脚本用来配置java命令，准备好classpath和相关的java系统属性，然后执行 java命令。 boot:该目录只包含了一个文件，plexus-classworlds是一个类加载器框架，相对于默认的java类加载器，他提供了更丰富的语法以方便配置，mvn使用该框架加载自己的类库。 conf:该目录包含了一个 非常重要的文件，setting.x">
+<meta name="keywords" content="knowlegde">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java集合">
-<meta property="og:url" content="http://yoursite.com/2019/01/29/Java集合/index.html">
+<meta property="og:title" content="Maven">
+<meta property="og:url" content="http://yoursite.com/2018/12/28/Maven/index.html">
 <meta property="og:site_name" content="feng&#39;s blog">
-<meta property="og:description" content="Java集合框架介绍Java的集合框架有下图所示：">
+<meta property="og:description" content="安装目录: bin: 包含了mvn运行的脚本，这些脚本用来配置java命令，准备好classpath和相关的java系统属性，然后执行 java命令。 boot:该目录只包含了一个文件，plexus-classworlds是一个类加载器框架，相对于默认的java类加载器，他提供了更丰富的语法以方便配置，mvn使用该框架加载自己的类库。 conf:该目录包含了一个 非常重要的文件，setting.x">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/01/29/Java%E9%9B%86%E5%90%88/java%E9%9B%86%E5%90%88.png">
-<meta property="og:updated_time" content="2019-01-29T07:21:32.000Z">
+<meta property="og:updated_time" content="2019-01-23T03:39:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java集合">
-<meta name="twitter:description" content="Java集合框架介绍Java的集合框架有下图所示：">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/01/29/Java%E9%9B%86%E5%90%88/java%E9%9B%86%E5%90%88.png">
+<meta name="twitter:title" content="Maven">
+<meta name="twitter:description" content="安装目录: bin: 包含了mvn运行的脚本，这些脚本用来配置java命令，准备好classpath和相关的java系统属性，然后执行 java命令。 boot:该目录只包含了一个文件，plexus-classworlds是一个类加载器框架，相对于默认的java类加载器，他提供了更丰富的语法以方便配置，mvn使用该框架加载自己的类库。 conf:该目录包含了一个 非常重要的文件，setting.x">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -60,7 +58,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Java集合 | feng&#39;s blog</title>
+<title>Maven | feng&#39;s blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -264,11 +262,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap"><article id="post-Java集合" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Maven" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/01/29/Java集合/" class="article-date">
-      <time datetime="2019-01-29T02:39:00.000Z" itemprop="datePublished">2019-01-29</time>
+      <a href="/2018/12/28/Maven/" class="article-date">
+      <time datetime="2018-12-28T07:37:29.000Z" itemprop="datePublished">2018-12-28</time>
 </a>
 
 
@@ -283,7 +281,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Java集合
+      Maven
     </h1>
   
 
@@ -293,10 +291,6 @@
         
 
         
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-    </div>
-
         <div class="clearfix"></div>
       </div>
       
@@ -304,72 +298,73 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="Java集合框架介绍"><a href="#Java集合框架介绍" class="headerlink" title="Java集合框架介绍"></a>Java集合框架介绍</h2><p>Java的集合框架有下图所示：</p>
-<p> <img src="https://raw.githubusercontent.com/shuangshuangshuangfeng/shuangshuangshuangfeng.github.io/master/2019/01/29/Java%E9%9B%86%E5%90%88/java%E9%9B%86%E5%90%88.png" alt="Java集合继承关系图"><br><a id="more"></a></p>
-<h3 id="Collection-有序接口"><a href="#Collection-有序接口" class="headerlink" title="Collection 有序接口"></a>Collection 有序接口</h3><h4 id="Collection的主要方法有"><a href="#Collection的主要方法有" class="headerlink" title="Collection的主要方法有:"></a>Collection的主要方法有:</h4><ul>
-<li>boolean add(Object o)添加对象到集合</li>
-<li>boolean remove(Object o)删除指定对象</li>
-<li>int size() 返回当前集合中的元素</li>
-<li>boolean contains(Object O)查找集合中是否有指定对象</li>
-<li>boolean isEmpty() 判断集合是否为空</li>
-<li>Iterator iterator() 返回一个迭代器</li>
-<li>boolean containsAll(Collection c) 查找集合中是否含有集合c的元素</li>
-<li>boolean addAll(Collection c) 将集合c中的元素添加至集合中</li>
-<li>void clear() 删除集合中的所有元素</li>
-<li>void removeAll(Collection c)从集合中删除c集合中也有的元素</li>
-<li>void retainAll(Collection c)从集合中删除集合c中不包含的元素</li>
+        <h3 id="安装目录"><a href="#安装目录" class="headerlink" title="安装目录:"></a>安装目录:</h3><ul>
+<li>bin: 包含了mvn运行的脚本，这些脚本用来配置java命令，准备好classpath和相关的java系统属性，然后执行 java命令。</li>
+<li>boot:该目录只包含了一个文件，plexus-classworlds是一个类加载器框架，相对于默认<br>的java类加载器，他提供了更丰富的语法以方便配置，mvn使用该框架加载自己的类库。</li>
+<li>conf:该目录包含了一个 非常重要的文件，setting.xml。直接修改该文件，就能在机器<br>上全局的定制Maven的行为。</li>
 </ul>
-<h3 id="List抽象接口"><a href="#List抽象接口" class="headerlink" title="List抽象接口"></a>List抽象接口</h3><p>List抽象接口可以重复有序</p>
-<h4 id="List的主要方法"><a href="#List的主要方法" class="headerlink" title="List的主要方法"></a>List的主要方法</h4><ul>
-<li>void add(int index, Object element)在指定位置添加一个元素</li>
-<li>boolean addAll(int index, Collect c)将集合c中的元素添加到指定的位置</li>
-<li>Object get(int index) 返回List中某个指定位置的元素</li>
-<li>int indexOf(Object o) 返回第一个出现元素o的位置</li>
-<li>Object remove(int index)删除指定位置的元素</li>
-<li>Object set(int index, Object element)用元素element取代位置为index上的元素，返回被取代的元素</li>
-<li>void sort() 排序</li>
-</ul>
-<h4 id="List主要接口对象"><a href="#List主要接口对象" class="headerlink" title="List主要接口对象"></a>List主要接口对象</h4><ul>
-<li>LinkedList没有同步方法</li>
-<li>ArrayList是非同步的</li>
-<li>Vector是同步的(synchronized)，类似于ArrayList</li>
-</ul>
-<h3 id="Set集合"><a href="#Set集合" class="headerlink" title="Set集合"></a>Set集合</h3><p>Java中使用Set接口的集合不允许有重复值,也就是说Set中的每一个元素都是唯一的。</p>
-<h4 id="Set的主要方法"><a href="#Set的主要方法" class="headerlink" title="Set的主要方法"></a>Set的主要方法</h4><ul>
-<li>int size() 获取集合中元素的个数</li>
-<li>add(Object o)向集合中添加元素</li>
-<li>Object remove(Object o) 在集合中删除元素o</li>
-<li>boolean contains(Object o) 判断集合中是否含有元素o</li>
-<li>iterator() 排序</li>
-</ul>
-<h4 id="Set接口的实现类-HashSet"><a href="#Set接口的实现类-HashSet" class="headerlink" title="Set接口的实现类-HashSet"></a>Set接口的实现类-HashSet</h4><p><strong>HashSet通过Hash算法排布集合内的元素，是一个无序，不可重复的集合。</strong></p>
-<ul>
-<li>HashSet不能保证元素的顺序，不可重复，不是线程安全的，集合元素可以为Null.</li>
-<li>其底层实现实际上是一个数组，存在的意义就是加快查询速度.</li>
-<li>对于HashSet集合中存在两个对象通过equals()方法返回true,那么这两个对象的hashCode值也应该相同。</li>
-</ul>
-<p><strong>注意</strong>: 每一个存储到哈希表中的对象，都要提供hashCode()和equals()方法的实现，用来判断是否是一个对象。</p>
-<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><p>Map接口的实现类有：HashMap, Hashtable，TreeMap。</p>
-<h4 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h4><p>最常用的Map，它根据键的HashCode值存储数据，根据键可以直接获取它的值，具有很快的访问速度.HashMap最多只允许一条记录的键为Null(多条会覆盖);允许多条记录的值为 Null，非同步的。</p>
-<h4 id="Hashtable"><a href="#Hashtable" class="headerlink" title="Hashtable"></a>Hashtable</h4><p>与HashMap类似，不同的是key和value的值均不允许为null，他支持线程的同步.即任一时刻只有一个线程能写Hashtable,因此也导致了Hashtale在写入时会比较慢。</p>
-<h4 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h4><p>能够把它保存的记录根据键(key)排序,默认是按升序排序，也可以指定排序的比较器，当用Iterator 遍历TreeMap时，得到的记录是排过序的。TreeMap不允许key的值为null。非同步的。 </p>
-<h2 id="有关集合的面试题"><a href="#有关集合的面试题" class="headerlink" title="有关集合的面试题"></a>有关集合的面试题</h2><ol>
-<li><p><strong>List初始化大小</strong>:<br>List arrayList = new ArrayList();<br>如果使用默认的构造方法，初始容量被设置为10，当ArrayList中的元素超过10个的时候，会使数组的大小增长到16.<br>通过调试可以看的到动态增长的数量变化是: 10-&gt;16-&gt;25-&gt;38-&gt;58-&gt;88-&gt;…<br>增长的计算公式为: 新容量 = (旧容量*3)/2+1</p>
+<a id="more"></a>
+<h3 id="两个核心概念是：坐标和依赖"><a href="#两个核心概念是：坐标和依赖" class="headerlink" title="两个核心概念是：坐标和依赖:"></a>两个核心概念是：坐标和依赖:</h3><ul>
+<li><p>Maven坐标为各种构件引入了秩序，任何一个构件都必须明确定义自己的坐标，而一组Maven坐标是通过一些元素定义的，他们是groupId，artifactId，version，packaging,classifier。<br>以下是坐标的定义：</p>
+<p>  <code>&lt;groupId&gt;org.sonatype.nexus&lt;/groupId&gt;</code></p>
+<p>  <code>&lt;artifactId&gt;nexus-indexer&lt;/artifactId&gt;</code></p>
+<p>  <code>&lt;version&gt;2.0.0&lt;/version&gt;</code></p>
+<p>  <code>&lt;packaging&gt;jar&lt;/packaging&gt;</code></p>
 </li>
-<li><p><strong>ArrayList和Vector(旧的)</strong>的区别:<br><strong>共同点</strong>: 这两个类都实现了List接口，他们都是有序集合，即存储在这两个集合中的元素的位置都是有顺序的，相当于一种动态的数组，我们以后可以按位置索引号取出某个元素，并且其中的数据是允许重复。<br><strong>区别</strong>:</p>
-</li>
-</ol>
-<ul>
-<li>同步性: Vector是线程安全的，也就是说他们的方法之间是线程同步的，而ArrayList是线程不安全的，它的方法之间是线程不同步的。如果只有一个线程会访问到集合，那最好是使用ArrayList，因为它不考虑线程安全，效率会高些；如果有多个线程会访问到集合，那最好是使用Vector，因为不需要我们自己再去考虑和编写线程安全的代码。</li>
-<li>数据增长:ArrayList与Vector都有一个初始的容量大小，当存储进他们里面的元素超过了容量的时候,就需要增加ArrayList与Vector的存储空间。Vector默认增长为原来两倍，而ArrayList的增长策略在文档中没有明确规定（从源代码看到的是增长为原来的1.5倍）。ArrayList与Vector都可以设置初始的空间大小，Vector还可以设置增长的空间大小，而ArrayList没有提供设置增长空间的方法。 </li>
 </ul>
-<ol start="3">
-<li>HashMap与Hashtable的区别:</li>
-</ol>
+<p>其中：</p>
+<p>groupId:定义了项目属于哪个组，这个组和项目所在的组织或公司有关；</p>
+<p>artifactId:定义了当前项目在组中唯一的ID</p>
+<p>version：版本</p>
+<h3 id="坐标"><a href="#坐标" class="headerlink" title="坐标"></a>坐标</h3><p>每一个构建都有其唯一的坐标，根据这个坐标可以定义其在仓库中的唯一存储路径。</p>
+<p>对于Maven来说，仓库只有两类：本地库和远程库。当maven根据坐标寻找构建的时候，他首先会查看本地库，如果本地库存在此构件，则直接使用；如果本地库不存在此构件，或者需要查看是否有更新的构件版本，Maven就会去远程仓库查找，发现需要的构件以后下载到本地仓库再使用。如果本地仓库和远程仓库都没有需要的组件，Maven就会报错。</p>
+<h3 id="中央仓库和私服"><a href="#中央仓库和私服" class="headerlink" title="中央仓库和私服"></a>中央仓库和私服</h3><ul>
+<li>中央仓库是Maven核心自带的远程仓科，他包含了大部分开源的构件。在默认配置下，当为本地仓库没有Maven需要的构件的时候，Maven会尝试从中央仓库下载。</li>
+<li>私服是在局域网内假设的一个私有仓库服务器，用其代理所有外语的远程仓库，内部的项目还能部署到私服上供其他项目的使用。</li>
+<li>除了中央仓库和私服，还有很多其他公开的远程仓库。</li>
+</ul>
+<h3 id="快照版本-SNAPSHOT-和发布版本"><a href="#快照版本-SNAPSHOT-和发布版本" class="headerlink" title="快照版本(-SNAPSHOT)和发布版本"></a>快照版本(-SNAPSHOT)和发布版本</h3><p>首先要知道快照版本相对与发布版本是不稳定的。</p>
+<p>当一个快照版本(1.2.0-SNAPSHOT)的构件发布到私服的时候，Maven会自动为构件打上时间戳，有了时间戳，Maven就能随时在仓库中找到1.2.0-SNAPSHOT的最新文件。默认情况下，Maven每天检查一次更新。但基于快照版本机制，当有人调用1.2.0-SNAPSHOT的时候，maven能够确保得到最新可用的快照构件。<br>当项目经过完善的测试后需要发布的时候，就应该将快照版本改为发布版本，以确保每个人使用该构件时对应了唯一的构件。</p>
+<h3 id="三套生命周期-三套生命周期是相互独立的"><a href="#三套生命周期-三套生命周期是相互独立的" class="headerlink" title="三套生命周期(三套生命周期是相互独立的)"></a>三套生命周期(三套生命周期是相互独立的)</h3><p><strong>1.clean生命周期</strong>:</p>
+<p>目的：清理项目</p>
+<p>阶段：</p>
 <ul>
-<li>Hashtable是基于陈旧的Dictionary类， HashMap是Java 1.2引进的Map接口的一个实例。</li>
-<li>Hashtable是同步的，是线程安全的。HashMap是不同步的，非线程安全。</li>
-<li>HashMap可以允许空值，Hashtable不允许空值。</li>
+<li>pre-clean 执行一些清理钱需要完成的工作。</li>
+<li>clean执行上一次构建生成的文件</li>
+<li>post-clean执行一些清理后要完成的工作</li>
+</ul>
+<p><strong>2.Default生命周期</strong>：</p>
+<p>Default生命周期定义了真正构建时所需要执行的所有步骤，是所有生命周期中最核心的部分。部分阶段如下：</p>
+<ul>
+<li>validate</li>
+<li>initialize</li>
+<li>compile：编译项目的主源码，一般是src/main/java目录下的java文件</li>
+<li>package: 接受编译好的代码，打包成可发布的格式，如jar</li>
+<li>install:将包安装到maven本地仓库，供本地其他Maven项目使用</li>
+<li>deploy：将最终的包复制到远程仓库，供开发人员和Maven项目使用。</li>
+</ul>
+<p><strong>3.Site生命周期：</strong></p>
+<p>目的：建立和发布站点</p>
+<p>阶段：</p>
+<ul>
+<li>pre-site执行一些生成项目站点之前需要完成的工作。</li>
+<li>site生成项目站点文档</li>
+<li>post-site执行一些在生成项目站点只有需要完成的工作</li>
+<li>site-deploy将生成的项目站点发布到服务器上。</li>
+</ul>
+<h3 id="Maven在依赖管理中有以下几个原则"><a href="#Maven在依赖管理中有以下几个原则" class="headerlink" title="Maven在依赖管理中有以下几个原则"></a>Maven在依赖管理中有以下几个原则</h3><ol>
+<li>依赖是使用Maven坐标来定位的，而Maven坐标主要由GAV（groupId, artifactId, version）构成。如果两个相同的依赖包，如果groupId, artifactId, version不同，那么maven也认为这两个是不同的。</li>
+<li>依赖会传递，A依赖了B，B依赖了C，那么A的依赖中就会出现B和C。</li>
+<li>Maven对同一个groupId, artifactId的冲突仲裁，不是以version越大越保留，而是依赖路径越短越优先，然后进行保留。</li>
+<li>依赖的scope会影响依赖的影响范围。</li>
+</ol>
+<h3 id="出现了依赖冲突时如何定位冲突原因"><a href="#出现了依赖冲突时如何定位冲突原因" class="headerlink" title="出现了依赖冲突时如何定位冲突原因"></a>出现了依赖冲突时如何定位冲突原因</h3><p>但出现了冲突的时候，比如系统出现了NoSuchMethodError，LinkageError 很有可能是你系统中出现了依赖冲突。出现冲突以后，可以按以下的步骤执行</p>
+<ul>
+<li>确定出了问题的jar包名称。通常可以在eclipse中查找冲突的类有在哪些依赖包里面出现了。并确定实际要使用的是那个包，冲突的包有哪些。</li>
+<li>通过mvn dependency:tree  &gt;  tree.txt 导出全部的依赖。</li>
+<li>在导出的依赖文件中，查找问题相关的jar。确定这些jar是如何被依赖进来的，是直接依赖的还是通过传递依赖引入的。</li>
+<li>找到相互冲突的并需要排除的依赖的顶级依赖,并分析冲突的原因，冲突的原因可能是以下几种：<br>1.同一个jar包但groupId, artifactId不同，这种冲突只能通过设定依赖的<exclusions> 来进行排除<br>2.需要的版本jar包依赖路径较长，这种冲突可以把想要版本的依赖直接什么在依赖中，这样路径就最短了优先级最高。</exclusions></li>
+<li>最后可以通过打包mvn install 来确认打出来的war包中是否有被排除的依赖。</li>
 </ul>
 
       
@@ -379,13 +374,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/01/29/Java集合/">Java集合</a></p>
+        <p><span>本文标题:</span><a href="/2018/12/28/Maven/">Maven</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">feng zhenting</a></p>
-        <p><span>发布时间:</span>2019-01-29, 10:39:00</p>
-        <p><span>最后更新:</span>2019-01-29, 15:21:32</p>
+        <p><span>发布时间:</span>2018-12-28, 15:37:29</p>
+        <p><span>最后更新:</span>2019-01-23, 11:39:17</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/01/29/Java集合/" title="Java集合">http://yoursite.com/2019/01/29/Java集合/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/01/29/Java集合/　　作者: feng zhenting" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/12/28/Maven/" title="Maven">http://yoursite.com/2018/12/28/Maven/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2018/12/28/Maven/　　作者: feng zhenting" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -398,15 +393,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2019/01/29/HTTP长链接与短链接/">
-                    HTTP长链接与短链接
+                <a href="/2019/01/07/session跨域共享/">
+                    session跨域共享
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2019/01/23/编译原理0/">
-                    编译原理0
+                <a href="/2018/12/25/数据库/">
+                    数据库
                 </a>
             </div>
         
@@ -418,7 +413,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java集合框架介绍"><span class="toc-number">1.</span> <span class="toc-text">Java集合框架介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Collection-有序接口"><span class="toc-number">1.1.</span> <span class="toc-text">Collection 有序接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Collection的主要方法有"><span class="toc-number">1.1.1.</span> <span class="toc-text">Collection的主要方法有:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List抽象接口"><span class="toc-number">1.2.</span> <span class="toc-text">List抽象接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#List的主要方法"><span class="toc-number">1.2.1.</span> <span class="toc-text">List的主要方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#List主要接口对象"><span class="toc-number">1.2.2.</span> <span class="toc-text">List主要接口对象</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set集合"><span class="toc-number">1.3.</span> <span class="toc-text">Set集合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Set的主要方法"><span class="toc-number">1.3.1.</span> <span class="toc-text">Set的主要方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Set接口的实现类-HashSet"><span class="toc-number">1.3.2.</span> <span class="toc-text">Set接口的实现类-HashSet</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Map"><span class="toc-number">1.4.</span> <span class="toc-text">Map</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HashMap"><span class="toc-number">1.4.1.</span> <span class="toc-text">HashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hashtable"><span class="toc-number">1.4.2.</span> <span class="toc-text">Hashtable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TreeMap"><span class="toc-number">1.4.3.</span> <span class="toc-text">TreeMap</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有关集合的面试题"><span class="toc-number">2.</span> <span class="toc-text">有关集合的面试题</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装目录"><span class="toc-number">1.</span> <span class="toc-text">安装目录:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#两个核心概念是：坐标和依赖"><span class="toc-number">2.</span> <span class="toc-text">两个核心概念是：坐标和依赖:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#坐标"><span class="toc-number">3.</span> <span class="toc-text">坐标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中央仓库和私服"><span class="toc-number">4.</span> <span class="toc-text">中央仓库和私服</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#快照版本-SNAPSHOT-和发布版本"><span class="toc-number">5.</span> <span class="toc-text">快照版本(-SNAPSHOT)和发布版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三套生命周期-三套生命周期是相互独立的"><span class="toc-number">6.</span> <span class="toc-text">三套生命周期(三套生命周期是相互独立的)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Maven在依赖管理中有以下几个原则"><span class="toc-number">7.</span> <span class="toc-text">Maven在依赖管理中有以下几个原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#出现了依赖冲突时如何定位冲突原因"><span class="toc-number">8.</span> <span class="toc-text">出现了依赖冲突时如何定位冲突原因</span></a></li></ol>
         
     </div>
     <style>
@@ -454,7 +449,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"Java集合　| feng's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"Maven　| feng's blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -474,7 +469,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/01/29/HTTP长链接与短链接/" title="上一篇: HTTP长链接与短链接">
+            <a href="/2019/01/07/session跨域共享/" title="上一篇: session跨域共享">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -482,7 +477,7 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2019/01/23/编译原理0/" title="下一篇: 编译原理0">
+            <a href="/2018/12/25/数据库/" title="下一篇: 数据库">
                 <i class="fa fa-angle-right"></i>
             </a>
         
