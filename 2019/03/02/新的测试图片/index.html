@@ -23,12 +23,16 @@
 <meta property="og:site_name" content="feng&#39;s blog">
 <meta property="og:description" content="Hexo发布博客引用自带图片的方法创建博客是使用命令创建： hexo new [layout]  其中的layout项可以省略，例如： hexo new “这是一个新的博客”使用完命令之后，在source/_post文件夹里面就会出现一个“这是一个新的博客.md”的文件和一个“这是一个新的博客”的文件夹。引用图片的第一种方法  用此种方法，而不是以前的方法，前提是你的hexo的版本是hexo3以上">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/03/02/新的测试图片/">
 <meta property="og:image" content="http://yoursite.com/2019/03/02/新的测试图片/这是一个新的博客的图片.jpg">
-<meta property="og:updated_time" content="2019-03-02T16:00:45.526Z">
+<meta property="og:image" content="http://yoursite.com/2019/03/02/新的测试图片/2019/03/02/新的测试图片/qwe.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/02/新的测试图片/qwe.png">
+<meta property="og:image" content="https://github.com/a734355551/a734355551.github.io/blob/master/2019/03/02/%E6%96%B0%E7%9A%84%E6%B5%8B%E8%AF%95%E5%9B%BE%E7%89%87/qwe.png">
+<meta property="og:updated_time" content="2019-03-02T16:22:29.813Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="新的测试图片">
 <meta name="twitter:description" content="Hexo发布博客引用自带图片的方法创建博客是使用命令创建： hexo new [layout]  其中的layout项可以省略，例如： hexo new “这是一个新的博客”使用完命令之后，在source/_post文件夹里面就会出现一个“这是一个新的博客.md”的文件和一个“这是一个新的博客”的文件夹。引用图片的第一种方法  用此种方法，而不是以前的方法，前提是你的hexo的版本是hexo3以上">
-<meta name="twitter:image" content="http://yoursite.com/2019/03/02/新的测试图片/这是一个新的博客的图片.jpg">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/02/新的测试图片/">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -305,16 +309,15 @@
 <li>其中的layout项可以省略，例如：</li>
 <li>hexo new “这是一个新的博客”<br>使用完命令之后，在source/_post文件夹里面就会出现一个“这是一个新的博客.md”的文件和一个“这是一个新的博客”的文件夹。<br>引用图片的第一种方法</li>
 <li>
-<p>用此种方法，而不是以前的<img src alt>方法，前提是你的hexo的版本是hexo3以上，到package.json里面看一下吧。如果不是hexo3以上的版本，那就只能用第二种方法了。</p>
+<p>用此种方法，而不是以前的<img src="/2019/03/02/新的测试图片/" alt>方法，前提是你的hexo的版本是hexo3以上，到package.json里面看一下吧。如果不是hexo3以上的版本，那就只能用第二种方法了。</p>
 </li>
 <li><p>我现在写了一个段落，并且想在这个段落的某一个地方引入一张图片<br>错误的例子</p>
 </li>
-<li><p>我现在写了一个段落，并且想在这个段落的某一个地方<img src="这是一个新的博客的图片.jpg" alt="这是一个新的博客的图片的说明">引入一张图片</p>
+<li><p>我现在写了一个段落，并且想在这个段落的某一个地方<img src="/2019/03/02/新的测试图片/这是一个新的博客的图片.jpg" alt="这是一个新的博客的图片的说明">引入一张图片</p>
 </li>
 </ul>
-<p>eg：</p>
-<pre><code>{% asset_img qwe.png 这是一个新的博客的图片的说明 %}
-</code></pre>
+<p>eg：<br>1.assert_img<br>    <img src="/2019/03/02/新的测试图片/2019/03/02/新的测试图片/qwe.png" title="这是一个新的博客的图片的说明"><br>2.插件<br>   <img src="/2019/03/02/新的测试图片/qwe.png" alt="这是一个新的博客的图片的说明"><br>3.gitlab<br><img src="https://github.com/a734355551/a734355551.github.io/blob/master/2019/03/02/%E6%96%B0%E7%9A%84%E6%B5%8B%E8%AF%95%E5%9B%BE%E7%89%87/qwe.png" alt="Java集合继承关系图"></p>
+
       
     </div>
     
@@ -325,7 +328,7 @@
         <p><span>本文标题:</span><a href="/2019/03/02/新的测试图片/">新的测试图片</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">feng zhenting</a></p>
         <p><span>发布时间:</span>2019-03-02, 23:46:26</p>
-        <p><span>最后更新:</span>2019-03-03, 00:00:45</p>
+        <p><span>最后更新:</span>2019-03-03, 00:22:29</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/03/02/新的测试图片/" title="新的测试图片">http://yoursite.com/2019/03/02/新的测试图片/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2019/03/02/新的测试图片/　　作者: feng zhenting" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
